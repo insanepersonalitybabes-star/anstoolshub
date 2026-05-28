@@ -1,5 +1,5 @@
 [build]
-buildCommand = "pip install --only-binary=:all: pillow && pip install -r requirements.txt""
+buildCommand = "pip install --only-binary=:all: pillow && pip install -r requirements.txt"
 
 [deploy]
 startCommand = "gunicorn app:app --bind 0.0.0.0:$PORT --workers 2 --timeout 120"
