@@ -1,9 +1,3 @@
-[build]
-builder = "nixpacks"
-buildCommand = "cd artifacts/ans-tools && pip install -r requirements.txt"
-
-[deploy]
-startCommand = "cd artifacts/ans-tools && gunicorn app:app --bind 0.0.0.0:$PORT --workers 2 --timeout 120 --max-requests 1000 --max-requests-jitter 50"
-healthcheckPath = "/"
-healthcheckTimeout = 30
-restartPolicyType = "on_failure"
+[variables] 
+BUILD_COMMAND = "pip install -r requirements.txt" 
+START_COMMAND = "gunicorn app:app --bind 0.0.0.0:$PORT --workers 2 --timeout 120" 
