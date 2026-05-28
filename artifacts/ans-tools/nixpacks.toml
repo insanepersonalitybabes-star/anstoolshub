@@ -1,2 +1,2 @@
-[phases.build] 
-cmds = ["pip install --only-binary=:all: pillow && pip install -r requirements.txt"] 
+[providers]
+providers = ["python"]
