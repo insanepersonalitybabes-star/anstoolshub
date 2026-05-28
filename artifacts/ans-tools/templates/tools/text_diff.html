@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% block title %}Text Diff Checker – Compare Two Texts Online | ANS Tools{% endblock %}
+{% block description %}Compare two texts online for free. Find differences, additions, and deletions between texts instantly. No signup required.{% endblock %}
+{% block keywords %}text diff, compare text online, text difference checker, text comparison tool, diff checker{% endblock %}
+{% block canonical %}https://anstools.xyz/tools/text-diff{% endblock %}
+
+{% block content %}
+<div class="tool-page">
+  <nav class="breadcrumb">
+    <a href="/">Home</a>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    <a href="/#tools">Tools</a>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    <span>Text Diff Checker</span>
+  </nav>
+
+  <div class="tool-header">
+    <div class="tool-header-icon">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" y1="9" x2="6" y2="21"/></svg>
+    </div>
+    <div class="tool-header-info">
+      <h1>Text Diff Checker</h1>
+      <p>Paste two versions of text side by side to instantly highlight what changed — additions, deletions, and modifications.</p>
+    </div>
+  </div>
+
+  <div class="tool-card-main">
+    <form method="POST">
+      <div class="form-row" style="margin-bottom:16px;">
+        <div class="form-group" style="margin-bottom:0;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+            <label style="margin:0;color:var(--success);font-weight:700;">Text A (Original)</label>
+            <span id="diffCount1" style="font-size:.75rem;color:var(--text3);">0 chars · 0 lines</span>
+          </div>
+          <textarea name="text1" id="diffText1" class="form-control" rows="12" placeholder="Paste the original text here…" style="font-family:'JetBrains Mono',monospace;font-size:.82rem;border-color:#BBF7D0;">{{ request.form.get('text1','') }}</textarea>
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+            <label style="margin:0;color:var(--danger);font-weight:700;">Text B (Modified)</label>
+            <span id="diffCount2" style="font-size:.75rem;color:var(--text3);">0 chars · 0 lines</span>
+          </div>
+          <textarea name="text2" id="diffText2" class="form-control" rows="12" placeholder="Paste the modified text here…" style="font-family:'JetBrains Mono',monospace;font-size:.82rem;border-color:#FECACA;">{{ request.form.get('text2','') }}</textarea>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary btn-lg">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" y1="9" x2="6" y2="21"/></svg>
+        Compare Texts
+      </button>
+    </form>
+
+    {% if result %}
+    <div style="margin-top:28px;">
+      {% if result.error %}
+      <div class="alert alert-error">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        {{ result.error }}
+      </div>
+      {% elif not result.has_diff %}
+      <div class="alert alert-success">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        <strong>Texts are identical!</strong> No differences found between the two inputs.
+      </div>
+      {% else %}
+      <!-- Stats -->
+      <div class="stats-row" style="grid-template-columns:repeat(4,1fr);margin-bottom:20px;">
+        <div class="stat-chip"><div class="stat-chip-num" style="color:var(--success);">+{{ result.additions }}</div><div class="stat-chip-label">Additions</div></div>
+        <div class="stat-chip"><div class="stat-chip-num" style="color:var(--danger);">-{{ result.deletions }}</div><div class="stat-chip-label">Deletions</div></div>
+        <div class="stat-chip"><div class="stat-chip-num">{{ result.text1_lines }}</div><div class="stat-chip-label">Text A Lines</div></div>
+        <div class="stat-chip"><div class="stat-chip-num">{{ result.text2_lines }}</div><div class="stat-chip-label">Text B Lines</div></div>
+      </div>
+
+      <!-- Legend -->
+      <div style="display:flex;gap:16px;margin-bottom:12px;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:6px;font-size:.8rem;"><span style="width:16px;height:16px;background:#DCFCE7;border-radius:3px;flex-shrink:0;"></span> Added in Text B</div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:.8rem;"><span style="width:16px;height:16px;background:#FEE2E2;border-radius:3px;flex-shrink:0;"></span> Removed from Text A</div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:.8rem;"><span style="width:16px;height:16px;background:#FEF9C3;border-radius:3px;flex-shrink:0;"></span> Changed</div>
+      </div>
+
+      <!-- HTML Diff Table -->
+      <div class="diff-wrapper">
+        {{ result.table | safe }}
+      </div>
+
+      <!-- Unified Diff -->
+      {% if result.diff %}
+      <details style="margin-top:16px;">
+        <summary style="cursor:pointer;font-size:.875rem;font-weight:600;color:var(--blue);padding:10px 0;">View Unified Diff (git-style)</summary>
+        <pre style="background:#0F172A;color:#E2E8F0;padding:16px;border-radius:8px;font-size:.78rem;font-family:'JetBrains Mono',monospace;white-space:pre-wrap;overflow-x:auto;margin-top:12px;">{{ result.diff }}</pre>
+      </details>
+      {% endif %}
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- Share -->
+  <div style="margin-bottom:32px;">
+    <p style="font-size:.82rem;color:var(--text3);margin-bottom:8px;">Share this tool:</p>
+    <div class="share-row">
+      <button class="share-btn share-twitter" onclick="shareUrl('twitter')"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.742l7.736-8.835L1.254 2.25H8.08l4.259 5.631ZM17.083 20.75h1.834L7.084 4.126H5.117Z"/></svg> Twitter</button>
+      <button class="share-btn share-copy" onclick="shareUrl('copy')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy Link</button>
+    </div>
+  </div>
+
+  <div class="seo-section">
+    <h2>Text Diff Checker – Compare Two Texts for Differences</h2>
+    <p>A text diff checker is an essential tool for writers, developers, editors, and students who need to compare two versions of text. Whether you're comparing a draft to a final version, checking a student's revised essay, or reviewing code changes, our free Text Diff tool makes it instant and easy.</p>
+    <ol class="how-to-steps">
+      <li><div><strong>Paste Text A</strong> (the original or older version) into the left box.</div></li>
+      <li><div><strong>Paste Text B</strong> (the modified or newer version) into the right box.</div></li>
+      <li><div><strong>Click Compare</strong> to see a side-by-side comparison with all differences highlighted.</div></li>
+    </ol>
+    <div class="tool-faq-list">
+      <div class="tool-faq-item"><div class="tool-faq-q">What is a text diff?</div><div class="tool-faq-a">A "diff" (short for difference) is a comparison between two texts that highlights what was added, removed, or changed. Programmers use diffs to review code changes; editors use them to track revisions in documents.</div></div>
+      <div class="tool-faq-item"><div class="tool-faq-q">Is this tool case-sensitive?</div><div class="tool-faq-a">Yes, the comparison is case-sensitive by default. "Hello" and "hello" will be treated as different text. This ensures precise, accurate diffs.</div></div>
+      <div class="tool-faq-item"><div class="tool-faq-q">What is the Unified Diff format?</div><div class="tool-faq-a">Unified diff is the standard format used by Git and other version control systems. Lines starting with "+" were added, lines starting with "-" were removed, and lines with no prefix are unchanged context lines.</div></div>
+    </div>
+  </div>
+
+  <div class="seo-section">
+    <h3>Related Tools</h3>
+    <div class="related-grid">
+      {% for tool in related %}<a href="/tools/{{ tool.slug }}" class="related-card"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>{{ tool.name }}</a>{% endfor %}
+    </div>
+  </div>
+
+  <div class="suggestion-widget">
+    <h3>Suggest an Improvement</h3>
+    <p>Have an idea to make this tool better?</p>
+    <div class="suggestion-form">
+      <select id="suggestionType" class="form-control"><option value="improvement">Improvement idea</option><option value="bug">Report a bug</option><option value="feature">Feature request</option></select>
+      <textarea id="suggestionText" class="form-control" rows="3" placeholder="Describe your suggestion…"></textarea>
+      <div class="suggestion-form-row">
+        <input type="email" id="suggestionEmail" class="form-control" placeholder="Email (optional)">
+        <button id="suggestionSubmit" class="btn btn-primary" onclick="submitSuggestion('text-diff')">Send Suggestion</button>
+      </div>
+      <div id="suggestionSuccess" class="suggestion-success"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Thanks! Received.</div>
+    </div>
+  </div>
+</div>
+{% endblock %}

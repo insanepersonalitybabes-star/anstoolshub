@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% block title %}Meta Tag Generator - Free Online | ANS Tools{% endblock %}
+{% block description %}Generate SEO meta tags for your website online for free. Open Graph, Twitter Card, and standard meta tags.{% endblock %}
+{% block keywords %}meta tag generator, seo meta tags, open graph generator, twitter card meta tags{% endblock %}
+{% block canonical %}https://anstools.xyz/tools/meta-tag-generator{% endblock %}
+{% block schema %}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Meta Tag Generator","url":"https://anstools.xyz/tools/meta-tag-generator","description":"Generate SEO meta tags online for free.","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+{% endblock %}
+{% block content %}
+<div class="tool-page">
+  <div class="breadcrumb">
+    <a href="/">Home</a><span>/</span><a href="/#tools">Tools</a><span>/</span>Meta Tag Generator
+  </div>
+  <div class="tool-header">
+    <div class="tool-header-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+    </div>
+    <div >
+      <h1>Meta Tag Generator</h1>
+      <p>Generate complete SEO meta tags including Open Graph and Twitter Card.</p>
+    </div>
+  </div>
+
+  <div class="tool-card-main">
+    <form method="POST">
+      <div class="form-group">
+        <label>Page Title <span style="color:#94A3B8;font-weight:400;">(50–60 chars recommended)</span></label>
+        <input type="text" name="title" placeholder="My Amazing Page - Brand Name" maxlength="70">
+      </div>
+      <div class="form-group">
+        <label>Meta Description <span style="color:#94A3B8;font-weight:400;">(150–160 chars recommended)</span></label>
+        <textarea name="description" rows="3" placeholder="A compelling description of your page for search engines and social shares..." maxlength="200"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Keywords <span style="color:#94A3B8;font-weight:400;">(comma-separated)</span></label>
+        <input type="text" name="keywords" placeholder="keyword one, keyword two, keyword three">
+      </div>
+      <div class="form-row form-row-2">
+        <div class="form-group">
+          <label>Author</label>
+          <input type="text" name="author" placeholder="Your Name or Brand">
+        </div>
+        <div class="form-group">
+          <label>Canonical URL</label>
+          <input type="url" name="canonical" placeholder="https://yoursite.com/page">
+        </div>
+      </div>
+      <div class="form-row form-row-2">
+        <div class="form-group">
+          <label>OG Image URL</label>
+          <input type="url" name="og_image" placeholder="https://yoursite.com/image.png">
+        </div>
+        <div class="form-group">
+          <label>Twitter Handle</label>
+          <input type="text" name="twitter_handle" placeholder="yourtwitterhandle">
+        </div>
+      </div>
+      <button type="submit" class="btn-primary">
+        <span class="btn-text">Generate Meta Tags</span>
+        <span class="spinner"></span>
+      </button>
+    </form>
+
+    {% if result %}
+      <div class="result-box" style="margin-top:24px;">
+        <h3>Generated Meta Tags</h3>
+        <div class="output-wrap">
+          <pre class="code-output" id="meta-output">{{ result.tags }}</pre>
+          <button class="copy-btn" onclick="copyText(document.getElementById('meta-output').textContent, this)">Copy</button>
+        </div>
+        <p style="font-size:13px;color:#94A3B8;margin-top:10px;">Paste these tags inside the &lt;head&gt; section of your HTML.</p>
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="seo-section">
+    <p>Meta tags are HTML elements that provide metadata about your web page to search engines and social media platforms. Proper meta tags improve your search engine rankings and control how your content appears when shared on social media.</p>
+    <h2>How to Generate Meta Tags</h2>
+    <ol class="how-to-steps">
+      <li>Fill in your page title and meta description</li>
+      <li>Add optional details like keywords, author, canonical URL, and OG image</li>
+      <li>Click "Generate Meta Tags" to create the complete HTML</li>
+      <li>Copy and paste the tags into the &lt;head&gt; section of your webpage</li>
+    </ol>
+  </div>
+
+  <div class="seo-section">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>Is the meta tag generator free?</h3>
+      <p>Yes, completely free with no signup required.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What meta tags does it generate?</h3>
+      <p>Our generator creates title tags, meta description tags, keywords meta tags, Open Graph tags for social media sharing, Twitter Card tags, canonical tags, and robots meta tags.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Do meta tags still matter for SEO?</h3>
+      <p>Yes. The title tag and meta description are critical for SEO and click-through rates in search results. Open Graph tags control how your pages appear when shared on social media.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is a good meta description length?</h3>
+      <p>Meta descriptions should be 150-160 characters. Google typically truncates descriptions longer than this in search results.</p>
+    </div>
+  </div>
+
+  <div class="seo-section">
+    <h2>Related Tools</h2>
+    <div class="related-grid">
+      <a href="/tools/word-counter" class="related-card">
+        <span>Word Counter</span>
+        <small>Count characters in your descriptions</small>
+      </a>
+      <a href="/tools/qr-generator" class="related-card">
+        <span>QR Code Generator</span>
+        <small>Create QR codes for your URLs</small>
+      </a>
+      <a href="/tools/url-encoder" class="related-card">
+        <span>URL Encoder</span>
+        <small>Encode special characters in URLs</small>
+      </a>
+    </div>
+  </div>
+
+  <div class="suggestion-widget">
+    <h3>Suggest an Improvement</h3>
+    <p>Have an idea to make this tool better? We'd love to hear it.</p>
+    <div class="suggestion-form">
+      <select id="suggestionType" class="form-control"><option value="improvement">Improvement idea</option><option value="bug">Report a bug</option><option value="feature">Feature request</option></select>
+      <textarea id="suggestionText" class="form-control" rows="3" placeholder="Describe your suggestion…"></textarea>
+      <div class="suggestion-form-row">
+        <input type="email" id="suggestionEmail" class="form-control" placeholder="Email (optional)">
+        <button id="suggestionSubmit" class="btn btn-primary" onclick="submitSuggestion('meta-tag-generator')">Send Suggestion</button>
+      </div>
+      <div id="suggestionSuccess" class="suggestion-success"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Thanks! Your suggestion has been received.</div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

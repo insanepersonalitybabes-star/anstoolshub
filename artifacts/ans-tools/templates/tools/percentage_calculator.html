@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% block title %}Percentage Calculator - Free Online | ANS Tools{% endblock %}
+{% block description %}Calculate percentages online for free. Find percentage of a number, percentage change, and more.{% endblock %}
+{% block keywords %}percentage calculator, calculate percentage online, percent calculator, percentage change{% endblock %}
+{% block canonical %}https://anstools.xyz/tools/percentage-calculator{% endblock %}
+{% block schema %}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Percentage Calculator","url":"https://anstools.xyz/tools/percentage-calculator","description":"Calculate percentages online for free.","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+{% endblock %}
+{% block content %}
+<div class="tool-page">
+  <div class="breadcrumb">
+    <a href="/">Home</a><span>/</span><a href="/#tools">Tools</a><span>/</span>Percentage Calculator
+  </div>
+  <div class="tool-header">
+    <div class="tool-header-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>
+    </div>
+    <div >
+      <h1>Percentage Calculator</h1>
+      <p>Three calculation modes: percentage of, what percent, and percent change.</p>
+    </div>
+  </div>
+
+  <div class="tool-card-main">
+    <form method="POST">
+      <div class="form-group">
+        <label>Calculation Mode</label>
+        <select name="mode" id="pct-mode" onchange="updateMode()">
+          <option value="1" {% if result and result.mode == 1 %}selected{% endif %}>What is X% of Y?</option>
+          <option value="2" {% if result and result.mode == 2 %}selected{% endif %}>X is what % of Y?</option>
+          <option value="3" {% if result and result.mode == 3 %}selected{% endif %}>Percentage change from X to Y</option>
+        </select>
+      </div>
+      <div class="form-row form-row-2">
+        <div class="form-group">
+          <label id="label-x">X (%)</label>
+          <input type="number" name="x" placeholder="25" step="any" required>
+        </div>
+        <div class="form-group">
+          <label id="label-y">Y (number)</label>
+          <input type="number" name="y" placeholder="200" step="any" required>
+        </div>
+      </div>
+      <button type="submit" class="btn-primary">
+        <span class="btn-text">Calculate</span>
+        <span class="spinner"></span>
+      </button>
+    </form>
+
+    {% if result %}
+      {% if result.error %}
+        <div class="alert-error" style="margin-top:20px;">{{ result.error }}</div>
+      {% else %}
+        <div class="result-box" style="margin-top:24px;text-align:center;">
+          <p style="font-size:16px;color:#64748B;margin-bottom:8px;">{{ result.label }}</p>
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:48px;font-weight:700;color:#2563EB;">{{ result.answer }}{% if result.mode == 2 or result.mode == 3 %}%{% endif %}</div>
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <div class="seo-section">
+    <p>The ANS Tools Percentage Calculator handles three common percentage problems: finding a percentage of a number, finding what percentage one number is of another, and calculating the percentage change between two values.</p>
+    <h2>How to Use the Percentage Calculator</h2>
+    <ol class="how-to-steps">
+      <li>Select the calculation mode from the dropdown</li>
+      <li>Enter the values in the X and Y fields</li>
+      <li>Click "Calculate" to see the result instantly</li>
+    </ol>
+  </div>
+</div>
+<div class="seo-section">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>Is the percentage calculator free?</h3>
+      <p>Yes, completely free with no signup required.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How do I find what percent X is of Y?</h3>
+      <p>Select "X is what % of Y" mode, enter X as the part and Y as the total, then click Calculate. The result shows the percentage X represents of Y.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How do I calculate percentage increase?</h3>
+      <p>Select "Percentage change" mode, enter the original value and new value. The calculator shows the percentage increase or decrease between the two values.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Can I calculate percentage decrease?</h3>
+      <p>Yes. Use the percentage change mode. If the new value is less than the original, the result will show a negative percentage indicating a decrease.</p>
+    </div>
+  </div>
+
+  <div class="seo-section">
+    <h2>Related Tools</h2>
+    <div class="related-grid">
+      <a href="/tools/bmi-calculator" class="related-card">
+        <span>BMI Calculator</span>
+        <small>Calculate your Body Mass Index</small>
+      </a>
+      <a href="/tools/emi-calculator" class="related-card">
+        <span>EMI Calculator</span>
+        <small>Calculate monthly loan payments</small>
+      </a>
+      <a href="/tools/tip-calculator" class="related-card">
+        <span>Tip Calculator</span>
+        <small>Calculate tip and split bills</small>
+      </a>
+    </div>
+  </div>
+
+  <div class="suggestion-widget">
+    <h3>Suggest an Improvement</h3>
+    <p>Have an idea to make this tool better? We'd love to hear it.</p>
+    <div class="suggestion-form">
+      <select id="suggestionType" class="form-control"><option value="improvement">Improvement idea</option><option value="bug">Report a bug</option><option value="feature">Feature request</option></select>
+      <textarea id="suggestionText" class="form-control" rows="3" placeholder="Describe your suggestion…"></textarea>
+      <div class="suggestion-form-row">
+        <input type="email" id="suggestionEmail" class="form-control" placeholder="Email (optional)">
+        <button id="suggestionSubmit" class="btn btn-primary" onclick="submitSuggestion('percentage-calculator')">Send Suggestion</button>
+      </div>
+      <div id="suggestionSuccess" class="suggestion-success"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Thanks! Your suggestion has been received.</div>
+    </div>
+  </div>
+
+</div>
+
+
+<script>
+function updateMode() {
+  const mode = document.getElementById('pct-mode').value;
+  const lx = document.getElementById('label-x');
+  const ly = document.getElementById('label-y');
+  if (mode === '1') { lx.textContent = 'X (%)'; ly.textContent = 'Y (number)'; }
+  else if (mode === '2') { lx.textContent = 'X (part)'; ly.textContent = 'Y (total)'; }
+  else { lx.textContent = 'X (original)'; ly.textContent = 'Y (new value)'; }
+}
+updateMode();
+</script>
+{% endblock %}

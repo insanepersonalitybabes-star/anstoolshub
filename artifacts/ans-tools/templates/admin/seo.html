@@ -1,0 +1,112 @@
+{% extends 'admin/base.html' %}
+{% block admin_title %}SEO Manager{% endblock %}
+{% block admin_topbar_title %}SEO Manager{% endblock %}
+{% block admin_content %}
+
+<div class="admin-section-title">SEO Manager</div>
+<div class="admin-section-desc">Manage your robots.txt, view sitemap, and follow the SEO guide to maximize organic traffic.</div>
+
+{% if success %}
+<div class="alert alert-success" style="margin-bottom:24px;">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;"><polyline points="20 6 9 17 4 12"/></svg>
+  {{ success }}
+</div>
+{% endif %}
+
+<!-- Robots.txt -->
+<div class="admin-card">
+  <div class="admin-card-title">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+    robots.txt
+  </div>
+  <form method="POST">
+    <input type="hidden" name="action" value="robots">
+    <div class="form-group">
+      <textarea name="robots_txt" class="form-control" rows="8" style="font-family:'JetBrains Mono',monospace;font-size:.85rem;">{{ robots }}</textarea>
+      <div class="form-hint">This file tells search engines which pages to crawl. The current version allows all pages and includes your sitemap URL.</div>
+    </div>
+    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+      <button type="submit" class="btn btn-primary">Save robots.txt</button>
+      <a href="/robots.txt" target="_blank" class="btn btn-secondary">Preview robots.txt</a>
+      <a href="/sitemap.xml" target="_blank" class="btn btn-secondary">View Sitemap</a>
+    </div>
+  </form>
+</div>
+
+<!-- Sitemap Overview -->
+<div class="admin-card">
+  <div class="admin-card-title">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    Sitemap Overview
+  </div>
+  <p style="color:var(--text2);font-size:.9rem;margin-bottom:16px;">Your sitemap is auto-generated at <a href="/sitemap.xml" target="_blank">/sitemap.xml</a> and includes all tool pages, the homepage, About, and Contact pages. Submit it to Google Search Console to index all pages.</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:8px;max-height:320px;overflow-y:auto;">
+    <div style="padding:8px 12px;background:var(--bg2);border-radius:6px;font-size:.8rem;color:var(--text2);">/</div>
+    <div style="padding:8px 12px;background:var(--bg2);border-radius:6px;font-size:.8rem;color:var(--text2);">/about</div>
+    <div style="padding:8px 12px;background:var(--bg2);border-radius:6px;font-size:.8rem;color:var(--text2);">/contact</div>
+    {% for tool in tools %}
+    <div style="padding:8px 12px;background:var(--bg2);border-radius:6px;font-size:.8rem;color:var(--text2);">/tools/{{ tool.slug }}</div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- SEO Guide -->
+<div class="admin-card">
+  <div class="admin-card-title">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+    SEO Optimization Guide
+  </div>
+
+  <div class="seo-guide-section">
+    <h3>1. Submit Your Sitemap to Google Search Console</h3>
+    <p>Go to <strong>Google Search Console</strong> → Sitemaps → paste <code>https://anstools.xyz/sitemap.xml</code> → Submit. This tells Google about all your pages and speeds up indexing significantly.</p>
+  </div>
+
+  <div class="seo-guide-section">
+    <h3>2. Configure Google Analytics</h3>
+    <p>Go to Settings &amp; Ads → enter your GA4 Measurement ID (G-XXXXXXXXXX). This enables traffic tracking so you can see which tools are most popular and where your traffic comes from.</p>
+  </div>
+
+  <div class="seo-guide-section">
+    <h3>3. Set Up Google AdSense</h3>
+    <p>Apply for an AdSense account at <a href="https://adsense.google.com" target="_blank">adsense.google.com</a>. Once approved, enter your Publisher ID and Ad Slot IDs in Settings. Ads will automatically appear on your tool pages.</p>
+  </div>
+
+  <div class="seo-guide-section">
+    <h3>4. On-Page SEO (Already Done)</h3>
+    <ul>
+      <li>Every tool page has a unique title, meta description, and canonical URL</li>
+      <li>Open Graph and Twitter Card meta tags on every page</li>
+      <li>JSON-LD structured data for rich snippets</li>
+      <li>Breadcrumb navigation on tool pages</li>
+      <li>Related tools section for internal linking</li>
+      <li>How-to and FAQ sections for featured snippet eligibility</li>
+    </ul>
+  </div>
+
+  <div class="seo-guide-section">
+    <h3>5. High-Traffic Tool Keywords to Target</h3>
+    <ul>
+      <li><strong>Image Compressor</strong> – "compress image online" (~90K/mo searches)</li>
+      <li><strong>PDF Merger</strong> – "merge pdf online free" (~110K/mo searches)</li>
+      <li><strong>TikTok Downloader</strong> – "tiktok downloader without watermark" (~550K/mo searches)</li>
+      <li><strong>Word Counter</strong> – "word counter" (~300K/mo searches)</li>
+      <li><strong>QR Generator</strong> – "qr code generator" (~370K/mo searches)</li>
+      <li><strong>Age Calculator</strong> – "age calculator" (~1.5M/mo searches)</li>
+      <li><strong>BMI Calculator</strong> – "bmi calculator" (~2.5M/mo searches)</li>
+      <li><strong>YouTube Thumbnail</strong> – "youtube thumbnail downloader" (~90K/mo searches)</li>
+    </ul>
+  </div>
+
+  <div class="seo-guide-section">
+    <h3>6. Link Building Tips</h3>
+    <ul>
+      <li>Share tool links on Reddit, Quora, and Facebook groups where users ask for online tools</li>
+      <li>Answer questions on Stack Overflow and Quora by linking to relevant tools</li>
+      <li>Submit the site to free directories: Product Hunt, AlternativeTo, ToolFinder</li>
+      <li>Create backlink opportunities by listing on "best free online tools" resource pages</li>
+    </ul>
+  </div>
+</div>
+
+{% endblock %}

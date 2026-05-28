@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% block title %}PDF Merger - Free Online | ANS Tools{% endblock %}
+{% block description %}Merge multiple PDF files into one online for free. Easy PDF combiner. No signup, no watermark.{% endblock %}
+{% block keywords %}pdf merger, merge pdf online, combine pdf files, pdf combiner{% endblock %}
+{% block canonical %}https://anstools.xyz/tools/pdf-merger{% endblock %}
+{% block schema %}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"PDF Merger","url":"https://anstools.xyz/tools/pdf-merger","description":"Merge multiple PDF files into one online for free.","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+{% endblock %}
+{% block content %}
+<div class="tool-page">
+  <div class="breadcrumb">
+    <a href="/">Home</a><span>/</span><a href="/#tools">Tools</a><span>/</span>PDF Merger
+  </div>
+  <div class="tool-header">
+    <div class="tool-header-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 2H5a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9z"/><path d="M13 2v7h7"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>
+    </div>
+    <div >
+      <h1>PDF Merger</h1>
+      <p>Combine multiple PDF files into one document. Fast and free.</p>
+    </div>
+  </div>
+
+  <div class="tool-card-main">
+    <form method="POST" enctype="multipart/form-data">
+      <div class="form-group">
+        <label>Upload PDF Files (select 2 or more)</label>
+        <input type="file" name="pdfs" accept="application/pdf" multiple required style="padding:10px 16px;">
+        <p style="font-size:13px;color:#94A3B8;margin-top:6px;">Hold Ctrl/Cmd to select multiple PDFs. They will be merged in the order selected.</p>
+      </div>
+      <button type="submit" class="btn-primary">
+        <span class="btn-text">Merge PDFs</span>
+        <span class="spinner"></span>
+      </button>
+    </form>
+
+    {% if result %}
+      {% if result.error %}
+        <div class="alert-error" style="margin-top:20px;">{{ result.error }}</div>
+      {% else %}
+        <div class="result-box">
+          <div class="alert alert-success">{{ result.count }} PDF files merged successfully.</div>
+          <div class="download-area">
+            <a href="data:application/pdf;base64,{{ result.b64 }}" download="merged.pdf" class="btn-download">Download Merged PDF</a>
+          </div>
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <div class="seo-section">
+    <p>Merge two or more PDF files into a single document for free. Our online PDF merger preserves all content, formatting, and page order. Perfect for combining reports, presentations, contracts, or any PDF documents.</p>
+    <h2>How to Merge PDF Files</h2>
+    <ol class="how-to-steps">
+      <li>Click the upload field and select your PDF files (hold Ctrl/Cmd for multiple)</li>
+      <li>Files will merge in the order you select them</li>
+      <li>Click "Merge PDFs" to process</li>
+      <li>Download the merged PDF document</li>
+    </ol>
+  </div>
+
+  <div class="seo-section">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>Is the PDF merger free?</h3>
+      <p>Yes, completely free. No signup or account required.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How many PDFs can I merge at once?</h3>
+      <p>You can merge multiple PDF files in one operation. Select all the files you want to combine when uploading.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Are my PDFs stored on the server?</h3>
+      <p>No. PDFs are processed in memory and the merged result is returned to you immediately. We do not store your files.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Does the merger preserve PDF formatting?</h3>
+      <p>Yes. The merger combines PDFs as-is, preserving all text, images, and formatting from each original document.</p>
+    </div>
+  </div>
+
+  <div class="seo-section">
+    <h2>Related Tools</h2>
+    <div class="related-grid">
+      <a href="/tools/image-to-pdf" class="related-card">
+        <span>Image to PDF</span>
+        <small>Convert images to PDF documents</small>
+      </a>
+      <a href="/tools/image-compressor" class="related-card">
+        <span>Image Compressor</span>
+        <small>Compress images before PDF conversion</small>
+      </a>
+      <a href="/tools/word-counter" class="related-card">
+        <span>Word Counter</span>
+        <small>Count words in your documents</small>
+      </a>
+    </div>
+  </div>
+
+  <div class="suggestion-widget">
+    <h3>Suggest an Improvement</h3>
+    <p>Have an idea to make this tool better? We'd love to hear it.</p>
+    <div class="suggestion-form">
+      <select id="suggestionType" class="form-control"><option value="improvement">Improvement idea</option><option value="bug">Report a bug</option><option value="feature">Feature request</option></select>
+      <textarea id="suggestionText" class="form-control" rows="3" placeholder="Describe your suggestion…"></textarea>
+      <div class="suggestion-form-row">
+        <input type="email" id="suggestionEmail" class="form-control" placeholder="Email (optional)">
+        <button id="suggestionSubmit" class="btn btn-primary" onclick="submitSuggestion('pdf-merger')">Send Suggestion</button>
+      </div>
+      <div id="suggestionSuccess" class="suggestion-success"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Thanks! Your suggestion has been received.</div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

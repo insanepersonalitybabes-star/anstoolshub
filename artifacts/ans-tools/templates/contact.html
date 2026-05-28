@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% block title %}Contact Us – ANS Tools{% endblock %}
+{% block description %}Get in touch with the ANS Tools team. Send us a message for support, feedback, or suggestions.{% endblock %}
+{% block keywords %}contact ans tools, feedback, support{% endblock %}
+{% block canonical %}https://anstools.xyz/contact{% endblock %}
+{% block og_title %}Contact ANS Tools{% endblock %}
+{% block og_desc %}Send us a message for support, feedback, or tool suggestions.{% endblock %}
+
+{% block content %}
+
+<section class="page-hero">
+  <div class="container">
+    <h1>Contact Us</h1>
+    <p>Have a question, feedback, or tool suggestion? We'd love to hear from you.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="contact-grid">
+
+      <!-- Info column -->
+      <div>
+        <div class="contact-info-card">
+          <h3 style="margin-bottom:20px;font-size:1.1rem;">Get in Touch</h3>
+          <div class="contact-info-item">
+            <div class="contact-info-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div>
+              <div class="contact-info-label">Email</div>
+              <div class="contact-info-value">hello@anstools.xyz</div>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-info-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div>
+              <div class="contact-info-label">Response Time</div>
+              <div class="contact-info-value">Within 24–48 hours</div>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-info-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            </div>
+            <div>
+              <div class="contact-info-label">Website</div>
+              <div class="contact-info-value">anstools.xyz</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-info-card" style="margin-top:16px;">
+          <h3 style="margin-bottom:14px;font-size:.95rem;">Quick Links</h3>
+          <a href="/#tools" style="display:block;font-size:.875rem;color:var(--blue);margin-bottom:8px;">→ Browse All 29+ Tools</a>
+          <a href="/about" style="display:block;font-size:.875rem;color:var(--blue);margin-bottom:8px;">→ About ANS Tools</a>
+          <a href="/privacy-policy" style="display:block;font-size:.875rem;color:var(--blue);margin-bottom:8px;">→ Privacy Policy</a>
+          <a href="/terms" style="display:block;font-size:.875rem;color:var(--blue);">→ Terms of Service</a>
+        </div>
+      </div>
+
+      <!-- Form column -->
+      <div>
+        <div class="tool-card-main">
+          <h2 style="font-size:1.3rem;margin-bottom:4px;">Send a Message</h2>
+          <p style="font-size:.875rem;color:var(--text3);margin-bottom:24px;">Fill in the form below and we'll get back to you promptly.</p>
+
+          {% if success %}
+          <div class="alert alert-success" style="margin-bottom:24px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;flex-shrink:0;"><polyline points="20 6 9 17 4 12"/></svg>
+            <div><strong>Message sent successfully!</strong> Thank you for reaching out. We'll reply within 24–48 hours.</div>
+          </div>
+          {% endif %}
+
+          {% if error %}
+          <div class="alert alert-error" style="margin-bottom:24px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;flex-shrink:0;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            {{ error }}
+          </div>
+          {% endif %}
+
+          {% if not success %}
+          <form method="POST">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Full Name *</label>
+                <input type="text" name="name" class="form-control" required placeholder="Your name" value="{{ request.form.get('name','') }}">
+              </div>
+              <div class="form-group">
+                <label>Email Address *</label>
+                <input type="email" name="email" class="form-control" required placeholder="you@example.com" value="{{ request.form.get('email','') }}">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Subject</label>
+              <select name="subject" class="form-control">
+                <option value="">Select a topic</option>
+                <option value="General Question" {% if request.form.get('subject')=='General Question' %}selected{% endif %}>General Question</option>
+                <option value="Tool Suggestion" {% if request.form.get('subject')=='Tool Suggestion' %}selected{% endif %}>Tool Suggestion</option>
+                <option value="Bug Report" {% if request.form.get('subject')=='Bug Report' %}selected{% endif %}>Bug Report</option>
+                <option value="Business / Partnership" {% if request.form.get('subject')=='Business / Partnership' %}selected{% endif %}>Business / Partnership</option>
+                <option value="Advertising" {% if request.form.get('subject')=='Advertising' %}selected{% endif %}>Advertising / AdSense</option>
+                <option value="Other" {% if request.form.get('subject')=='Other' %}selected{% endif %}>Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Message *</label>
+              <textarea name="message" class="form-control" rows="6" required placeholder="Tell us how we can help…">{{ request.form.get('message','') }}</textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg" style="width:100%;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              Send Message
+            </button>
+          </form>
+          {% endif %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}

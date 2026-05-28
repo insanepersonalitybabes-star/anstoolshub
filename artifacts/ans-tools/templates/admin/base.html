@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block admin_title %}Admin{% endblock %} – ANS Tools Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <meta name="robots" content="noindex,nofollow">
+</head>
+<body>
+<div class="admin-layout">
+
+  <!-- Sidebar -->
+  <aside class="admin-sidebar">
+    <div class="admin-sidebar-logo">
+      ANS Tools <span>Admin</span>
+    </div>
+    <nav class="admin-nav">
+      <div class="admin-nav-section">Overview</div>
+      <a href="/admin/dashboard" class="{% if request.path == '/admin/dashboard' %}active{% endif %}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </a>
+
+      <div class="admin-nav-section">Content</div>
+      <a href="/admin/messages" class="{% if request.path == '/admin/messages' %}active{% endif %}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Messages
+      </a>
+      <a href="/admin/suggestions" class="{% if request.path == '/admin/suggestions' %}active{% endif %}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        Suggestions
+      </a>
+
+      <div class="admin-nav-section">Configuration</div>
+      <a href="/admin/settings" class="{% if request.path == '/admin/settings' %}active{% endif %}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+        Settings & Ads
+      </a>
+      <a href="/admin/seo" class="{% if request.path == '/admin/seo' %}active{% endif %}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        SEO Manager
+      </a>
+
+      <div class="admin-nav-section">Site</div>
+      <a href="/" target="_blank">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View Website
+      </a>
+      <a href="/admin/logout">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Log Out
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main -->
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <span class="admin-topbar-title">{% block admin_topbar_title %}{% endblock %}</span>
+      <span style="font-size:.8rem;color:var(--text3);">Logged in as Admin &nbsp;·&nbsp; <a href="/admin/logout" style="color:var(--danger);">Logout</a></span>
+    </div>
+    <div class="admin-content">
+      {% block admin_content %}{% endblock %}
+    </div>
+  </main>
+
+</div>
+</body>
+</html>

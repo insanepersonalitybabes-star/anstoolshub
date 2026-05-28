@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% block title %}Case Converter - Free Online | ANS Tools{% endblock %}
+{% block description %}Convert text case online for free. UPPERCASE, lowercase, Title Case, Sentence case, Alternate case instantly.{% endblock %}
+{% block keywords %}case converter, text case converter, uppercase lowercase, title case converter{% endblock %}
+{% block canonical %}https://anstools.xyz/tools/case-converter{% endblock %}
+{% block schema %}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Case Converter","url":"https://anstools.xyz/tools/case-converter","description":"Convert text case online for free.","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+{% endblock %}
+{% block content %}
+<div class="tool-page">
+  <div class="breadcrumb">
+    <a href="/">Home</a><span>/</span><a href="/#tools">Tools</a><span>/</span>Case Converter
+  </div>
+  <div class="tool-header">
+    <div class="tool-header-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+    </div>
+    <div >
+      <h1>Case Converter</h1>
+      <p>Convert text to any case style in one click. Six conversion modes.</p>
+    </div>
+  </div>
+
+  <div class="tool-card-main">
+    <form method="POST">
+      <div class="form-group">
+        <label>Enter your text</label>
+        <textarea name="text" rows="6" placeholder="Type or paste your text here...">{% if result and result.text %}{{ result.text }}{% endif %}</textarea>
+      </div>
+      <div class="form-group">
+        <label>Conversion Type</label>
+        <select name="conversion">
+          <option value="upper" {% if result and result.conversion == 'upper' %}selected{% endif %}>UPPERCASE</option>
+          <option value="lower" {% if result and result.conversion == 'lower' %}selected{% endif %}>lowercase</option>
+          <option value="title" {% if result and result.conversion == 'title' %}selected{% endif %}>Title Case</option>
+          <option value="sentence" {% if result and result.conversion == 'sentence' %}selected{% endif %}>Sentence case</option>
+          <option value="alternate" {% if result and result.conversion == 'alternate' %}selected{% endif %}>aLtErNaTe CaSe</option>
+          <option value="inverse" {% if result and result.conversion == 'inverse' %}selected{% endif %}>iNVERSE cASE</option>
+        </select>
+      </div>
+      <button type="submit" class="btn-primary">
+        <span class="btn-text">Convert Case</span>
+        <span class="spinner"></span>
+      </button>
+    </form>
+
+    {% if result %}
+      {% if result.error %}
+        <div class="alert-error" style="margin-top:20px;">{{ result.error }}</div>
+      {% else %}
+        <div class="result-box">
+          <h3>Converted Text</h3>
+          <div class="output-wrap">
+            <div class="code-output" id="converted-output">{{ result.converted }}</div>
+            <button class="copy-btn" onclick="copyText(document.getElementById('converted-output').textContent, this)">Copy</button>
+          </div>
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <div class="seo-section">
+    <p>The ANS Tools Case Converter supports six text transformation modes: UPPERCASE, lowercase, Title Case, Sentence case, Alternate case, and Inverse case. Convert any text instantly and copy the result with one click.</p>
+    <h2>How to Convert Text Case</h2>
+    <ol class="how-to-steps">
+      <li>Type or paste your text into the input area</li>
+      <li>Select the desired case conversion from the dropdown</li>
+      <li>Click "Convert Case" to apply the transformation</li>
+      <li>Click "Copy" to copy the result to your clipboard</li>
+    </ol>
+  </div>
+
+  <div class="seo-section">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>Is the case converter free?</h3>
+      <p>Yes, completely free with no signup required.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What text case formats are supported?</h3>
+      <p>Our tool supports UPPERCASE, lowercase, Title Case, Sentence case, and alternating case conversions.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Is my text stored on your server?</h3>
+      <p>No. Your text is processed and returned to you immediately. We do not store or log any text you enter.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Can I convert very long texts?</h3>
+      <p>Yes. The case converter handles texts of any length including entire articles, documents, and long-form content.</p>
+    </div>
+  </div>
+
+  <div class="seo-section">
+    <h2>Related Tools</h2>
+    <div class="related-grid">
+      <a href="/tools/word-counter" class="related-card">
+        <span>Word Counter</span>
+        <small>Count words, characters, and sentences</small>
+      </a>
+      <a href="/tools/base64" class="related-card">
+        <span>Base64 Encoder</span>
+        <small>Encode and decode Base64 strings</small>
+      </a>
+      <a href="/tools/url-encoder" class="related-card">
+        <span>URL Encoder</span>
+        <small>Encode and decode URL strings</small>
+      </a>
+    </div>
+  </div>
+
+  <div class="suggestion-widget">
+    <h3>Suggest an Improvement</h3>
+    <p>Have an idea to make this tool better? We'd love to hear it.</p>
+    <div class="suggestion-form">
+      <select id="suggestionType" class="form-control"><option value="improvement">Improvement idea</option><option value="bug">Report a bug</option><option value="feature">Feature request</option></select>
+      <textarea id="suggestionText" class="form-control" rows="3" placeholder="Describe your suggestion…"></textarea>
+      <div class="suggestion-form-row">
+        <input type="email" id="suggestionEmail" class="form-control" placeholder="Email (optional)">
+        <button id="suggestionSubmit" class="btn btn-primary" onclick="submitSuggestion('case-converter')">Send Suggestion</button>
+      </div>
+      <div id="suggestionSuccess" class="suggestion-success"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Thanks! Your suggestion has been received.</div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

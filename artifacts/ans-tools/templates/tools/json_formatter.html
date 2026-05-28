@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% block title %}JSON Formatter & Validator – Free Online | ANS Tools{% endblock %}
+{% block description %}Format, validate and beautify JSON data online for free. Pretty print or minify JSON instantly. No signup required.{% endblock %}
+{% block keywords %}json formatter, json validator, json beautifier, format json online, pretty print json{% endblock %}
+{% block canonical %}https://anstools.xyz/tools/json-formatter{% endblock %}
+
+{% block content %}
+<div class="tool-page">
+  <nav class="breadcrumb">
+    <a href="/">Home</a>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    <a href="/#tools">Tools</a>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    <span>JSON Formatter</span>
+  </nav>
+
+  <div class="tool-header">
+    <div class="tool-header-icon">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5c0 1.1.9 2 2 2h1"/><path d="M16 21h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1"/></svg>
+    </div>
+    <div class="tool-header-info">
+      <h1>JSON Formatter & Validator</h1>
+      <p>Format messy JSON into readable, indented output. Minify JSON to save space. Validate JSON for errors instantly.</p>
+    </div>
+  </div>
+
+  <div class="tool-card-main">
+    <form method="POST">
+      <div class="form-group">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+          <label for="jsonInput" style="margin:0;">JSON Input</label>
+          <span id="jsonStatus" style="font-size:.8rem;font-weight:600;transition:color 200ms;"></span>
+        </div>
+        <textarea name="json" id="jsonInput" class="form-control" rows="12" placeholder='{"name":"John","age":30,"city":"New York"}' style="font-family:&#39;JetBrains Mono&#39;,monospace;font-size:.85rem;">{{ request.form.get('json','') }}</textarea>
+        <div class="form-hint">Paste your JSON data above. Live validation shows errors as you type.</div>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button type="submit" name="action" value="format" class="btn btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="21" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="21" y1="18" x2="3" y2="18"/></svg>
+          Format JSON
+        </button>
+        <button type="submit" name="action" value="minify" class="btn btn-secondary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="10" y1="14" x2="21" y2="3"/><line x1="3" y1="21" x2="14" y2="10"/></svg>
+          Minify JSON
+        </button>
+        <button type="submit" name="action" value="validate" class="btn btn-secondary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Validate Only
+        </button>
+      </div>
+    </form>
+
+    {% if result %}
+    <div style="margin-top:24px;">
+      {% if result.error %}
+      <div class="alert alert-error">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        {{ result.error }}
+      </div>
+      {% else %}
+        {% if result.action == 'validated' %}
+        <div class="alert alert-success">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <div>
+            <strong>Valid JSON!</strong> — Type: <code>{{ result.type }}</code>,
+            {% if result.type in ('dict','list') %}{{ result.keys }} {% if result.type == 'dict' %}key-value pairs{% else %}items{% endif %}{% endif %}
+          </div>
+        </div>
+        {% else %}
+        <div class="result-box">
+          <div class="result-box-header">
+            <span class="result-box-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              JSON {{ result.action | capitalize }} Successfully
+              {% if result.action == 'formatted' and result.keys is defined %}— {{ result.keys }} {% if result.keys == 1 %}item{% else %}items{% endif %}{% endif %}
+            </span>
+            <button class="btn-copy" data-copy-target="jsonOutput">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              Copy
+            </button>
+          </div>
+          <pre id="jsonOutput" class="json-output">{{ result.output }}</pre>
+        </div>
+        {% endif %}
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- Share -->
+  <div style="margin-bottom:32px;">
+    <p style="font-size:.82rem;color:var(--text3);margin-bottom:8px;">Share this tool:</p>
+    <div class="share-row">
+      <button class="share-btn share-twitter" onclick="shareUrl('twitter')"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.742l7.736-8.835L1.254 2.25H8.08l4.259 5.631ZM17.083 20.75h1.834L7.084 4.126H5.117Z"/></svg> Twitter</button>
+      <button class="share-btn share-copy" onclick="shareUrl('copy')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy Link</button>
+    </div>
+  </div>
+
+  <!-- SEO -->
+  <div class="seo-section">
+    <h2>JSON Formatter – Format & Validate JSON Online Free</h2>
+    <p>JSON (JavaScript Object Notation) is the most widely used data interchange format on the web. However, JSON data often arrives minified or poorly formatted, making it difficult to read. Our free JSON Formatter instantly transforms messy JSON into beautifully indented, readable output.</p>
+    <ol class="how-to-steps">
+      <li><div><strong>Paste your JSON</strong> into the input box. The validator immediately checks for syntax errors as you type.</div></li>
+      <li><div><strong>Choose Format, Minify, or Validate</strong>. Format adds proper indentation; Minify compresses it; Validate just checks if it's valid.</div></li>
+      <li><div><strong>Copy the output</strong> with one click and use it in your project.</div></li>
+    </ol>
+
+    <div class="tool-faq-list">
+      <div class="tool-faq-item"><div class="tool-faq-q">What is JSON formatting?</div><div class="tool-faq-a">JSON formatting (also called pretty printing) adds indentation and line breaks to minified JSON, making it human-readable. Raw API responses and JSON files are often minified (all on one line) to save bandwidth. A formatter makes them readable for debugging and development.</div></div>
+      <div class="tool-faq-item"><div class="tool-faq-q">What is the difference between Format and Minify?</div><div class="tool-faq-a">Format adds spaces, newlines, and indentation to make JSON readable by humans. Minify removes all unnecessary whitespace to produce the smallest possible file — ideal for production APIs where bandwidth matters.</div></div>
+      <div class="tool-faq-item"><div class="tool-faq-q">Does this tool store my JSON data?</div><div class="tool-faq-a">No. Your JSON data is processed on our server solely to format or validate it, and is never stored, logged, or shared. Each request is independent and your data is immediately discarded after processing.</div></div>
+    </div>
+  </div>
+
+  <div class="seo-section">
+    <h3>Related Tools</h3>
+    <div class="related-grid">
+      {% for tool in related %}<a href="/tools/{{ tool.slug }}" class="related-card"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>{{ tool.name }}</a>{% endfor %}
+    </div>
+  </div>
+
+  <div class="suggestion-widget">
+    <h3>Suggest an Improvement</h3>
+    <p>Have an idea to make this tool better? We'd love to hear it.</p>
+    <div class="suggestion-form">
+      <select id="suggestionType" class="form-control"><option value="improvement">Improvement idea</option><option value="bug">Report a bug</option><option value="feature">Feature request</option><option value="other">Other</option></select>
+      <textarea id="suggestionText" class="form-control" rows="3" placeholder="Describe your suggestion…"></textarea>
+      <div class="suggestion-form-row">
+        <input type="email" id="suggestionEmail" class="form-control" placeholder="Email (optional)">
+        <button id="suggestionSubmit" class="btn btn-primary" onclick="submitSuggestion('json-formatter')">Send Suggestion</button>
+      </div>
+      <div id="suggestionSuccess" class="suggestion-success"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Thanks! Received.</div>
+    </div>
+  </div>
+</div>
+{% endblock %}

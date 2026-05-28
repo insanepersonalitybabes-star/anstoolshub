@@ -1,0 +1,71 @@
+{% extends 'admin/base.html' %}
+{% block admin_title %}Suggestions{% endblock %}
+{% block admin_topbar_title %}Tool Suggestions{% endblock %}
+{% block admin_content %}
+
+<div class="admin-section-title">Tool Suggestions</div>
+<div class="admin-section-desc">User-submitted suggestions from the suggestion widget on tool pages. Approve, reject, or delete to manage them.</div>
+
+{% if suggestions %}
+<div class="admin-card" style="padding:0;overflow:hidden;">
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Status</th>
+        <th>Tool Page</th>
+        <th>Type</th>
+        <th>Suggestion</th>
+        <th>Email</th>
+        <th>Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for s in suggestions %}
+      <tr>
+        <td><span class="admin-badge admin-badge-{{ s.status }}">{{ s.status }}</span></td>
+        <td style="font-size:.82rem;"><a href="/tools/{{ s.tool_slug }}" style="color:var(--blue);">{{ s.tool_slug }}</a></td>
+        <td style="font-size:.78rem;color:var(--text2);">{{ s.suggestion_type or 'suggestion' }}</td>
+        <td style="font-size:.82rem;max-width:300px;">
+          <details>
+            <summary style="cursor:pointer;color:var(--text);">{{ s.suggestion[:80] }}{% if s.suggestion|length > 80 %}…{% endif %}</summary>
+            <div style="margin-top:8px;white-space:pre-wrap;color:var(--text2);">{{ s.suggestion }}</div>
+          </details>
+        </td>
+        <td style="font-size:.8rem;color:var(--text2);">{{ s.email or '—' }}</td>
+        <td style="font-size:.78rem;color:var(--text3);white-space:nowrap;">{{ s.created_at[:16] }}</td>
+        <td>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;">
+            {% if s.status == 'pending' %}
+            <form method="POST" style="margin:0;">
+              <input type="hidden" name="action" value="approve">
+              <input type="hidden" name="id" value="{{ s.id }}">
+              <button type="submit" class="btn btn-sm" style="background:#D1FAE5;color:#065F46;border:none;cursor:pointer;padding:6px 11px;border-radius:7px;font-size:.78rem;font-weight:600;">Approve</button>
+            </form>
+            <form method="POST" style="margin:0;">
+              <input type="hidden" name="action" value="reject">
+              <input type="hidden" name="id" value="{{ s.id }}">
+              <button type="submit" class="btn btn-sm" style="background:#FEF3C7;color:#92400E;border:none;cursor:pointer;padding:6px 11px;border-radius:7px;font-size:.78rem;font-weight:600;">Reject</button>
+            </form>
+            {% endif %}
+            <form method="POST" style="margin:0;" onsubmit="return confirm('Delete this suggestion?');">
+              <input type="hidden" name="action" value="delete">
+              <input type="hidden" name="id" value="{{ s.id }}">
+              <button type="submit" class="btn btn-sm" style="background:#FEE2E2;color:#DC2626;border:none;cursor:pointer;padding:6px 11px;border-radius:7px;font-size:.78rem;font-weight:600;">Delete</button>
+            </form>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="admin-card" style="text-align:center;padding:64px;">
+  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin:0 auto 16px;display:block;color:var(--text3);"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+  <h3 style="color:var(--text2);font-size:1rem;">No suggestions yet</h3>
+  <p style="color:var(--text3);font-size:.875rem;margin-top:8px;">Suggestions submitted from the widget on tool pages will appear here.</p>
+</div>
+{% endif %}
+
+{% endblock %}

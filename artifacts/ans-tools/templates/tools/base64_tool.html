@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% block title %}Base64 Encoder/Decoder - Free Online | ANS Tools{% endblock %}
+{% block description %}Encode and decode Base64 online for free. Instant Base64 encoding and decoding tool. No signup required.{% endblock %}
+{% block keywords %}base64 encoder decoder, base64 encode online, base64 decode online, base64 converter{% endblock %}
+{% block canonical %}https://anstools.xyz/tools/base64{% endblock %}
+{% block schema %}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Base64 Encoder Decoder","url":"https://anstools.xyz/tools/base64","description":"Encode and decode Base64 online for free.","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+{% endblock %}
+{% block content %}
+<div class="tool-page">
+  <div class="breadcrumb">
+    <a href="/">Home</a><span>/</span><a href="/#tools">Tools</a><span>/</span>Base64 Encoder/Decoder
+  </div>
+  <div class="tool-header">
+    <div class="tool-header-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+    </div>
+    <div >
+      <h1>Base64 Encoder / Decoder</h1>
+      <p>Encode plain text to Base64 or decode Base64 strings back to text.</p>
+    </div>
+  </div>
+
+  <div class="tool-card-main">
+    <form method="POST">
+      <div class="form-group">
+        <label>Input Text</label>
+        <textarea name="text" rows="6" placeholder="Enter text to encode or Base64 string to decode..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Action</label>
+        <div style="display:flex;gap:16px;">
+          <label class="radio-row"><input type="radio" name="action" value="encode" checked> Encode to Base64</label>
+          <label class="radio-row"><input type="radio" name="action" value="decode"> Decode from Base64</label>
+        </div>
+      </div>
+      <button type="submit" class="btn-primary">
+        <span class="btn-text">Convert</span>
+        <span class="spinner"></span>
+      </button>
+    </form>
+
+    {% if result %}
+      {% if result.error %}
+        <div class="alert-error" style="margin-top:20px;">{{ result.error }}</div>
+      {% else %}
+        <div class="result-box">
+          <h3>{{ result.action | title }} Output</h3>
+          <div class="output-wrap">
+            <div class="code-output" id="base64-output">{{ result.output }}</div>
+            <button class="copy-btn" onclick="copyText(document.getElementById('base64-output').textContent, this)">Copy</button>
+          </div>
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <div class="seo-section">
+    <p>Base64 is an encoding scheme that converts binary data into a text string using 64 printable ASCII characters. It's commonly used in web development for embedding images, encoding authentication credentials, and data transmission in APIs.</p>
+    <h2>How to Encode or Decode Base64</h2>
+    <ol class="how-to-steps">
+      <li>Enter your plain text or Base64 string in the input area</li>
+      <li>Select "Encode to Base64" or "Decode from Base64"</li>
+      <li>Click "Convert" to process your input</li>
+      <li>Copy the result using the Copy button</li>
+    </ol>
+  </div>
+
+  <div class="seo-section">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>What is Base64 encoding?</h3>
+      <p>Base64 is a binary-to-text encoding scheme that converts binary data into a string of ASCII characters. It is widely used for encoding data in emails, data URLs, and APIs.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Is this Base64 encoder free?</h3>
+      <p>Yes, completely free. No account or signup required.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Can I decode Base64 strings?</h3>
+      <p>Yes. Our tool both encodes text to Base64 and decodes Base64 strings back to plain text.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Is Base64 encryption?</h3>
+      <p>No. Base64 is encoding, not encryption. It simply represents data in a different format and can be decoded by anyone. It provides no security on its own.</p>
+    </div>
+  </div>
+
+  <div class="seo-section">
+    <h2>Related Tools</h2>
+    <div class="related-grid">
+      <a href="/tools/url-encoder" class="related-card">
+        <span>URL Encoder/Decoder</span>
+        <small>Encode and decode URL strings</small>
+      </a>
+      <a href="/tools/password-generator" class="related-card">
+        <span>Password Generator</span>
+        <small>Generate secure random passwords</small>
+      </a>
+      <a href="/tools/meta-tag-generator" class="related-card">
+        <span>Meta Tag Generator</span>
+        <small>Create SEO meta tags instantly</small>
+      </a>
+    </div>
+  </div>
+
+  <div class="suggestion-widget">
+    <h3>Suggest an Improvement</h3>
+    <p>Have an idea to make this tool better? We'd love to hear it.</p>
+    <div class="suggestion-form">
+      <select id="suggestionType" class="form-control"><option value="improvement">Improvement idea</option><option value="bug">Report a bug</option><option value="feature">Feature request</option></select>
+      <textarea id="suggestionText" class="form-control" rows="3" placeholder="Describe your suggestion…"></textarea>
+      <div class="suggestion-form-row">
+        <input type="email" id="suggestionEmail" class="form-control" placeholder="Email (optional)">
+        <button id="suggestionSubmit" class="btn btn-primary" onclick="submitSuggestion('base64')">Send Suggestion</button>
+      </div>
+      <div id="suggestionSuccess" class="suggestion-success"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Thanks! Your suggestion has been received.</div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,218 @@
+{% extends 'base.html' %}
+
+{% block title %}Instagram Video Downloader - Download Reels, Photos Free | ANS Tools{% endblock %}
+{% block description %}Download Instagram videos, Reels, photos and Stories for free. Paste any Instagram URL and download instantly. No signup. Works on iPhone and Android.{% endblock %}
+{% block keywords %}instagram downloader, instagram video downloader, download instagram reels, instagram photo downloader, save instagram videos free{% endblock %}
+{% block canonical %}https://anstools.xyz/tools/instagram-downloader{% endblock %}
+{% block og_title %}Instagram Video Downloader - Download Reels & Photos Free{% endblock %}
+{% block og_description %}Download Instagram videos, Reels, photos and Stories for free. Paste any Instagram URL and download instantly.{% endblock %}
+{% block og_url %}https://anstools.xyz/tools/instagram-downloader{% endblock %}
+
+{% block schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Instagram Video Downloader",
+  "url": "https://anstools.xyz/tools/instagram-downloader",
+  "description": "Download Instagram videos, Reels, photos and Stories for free. No signup required.",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Any",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+  "featureList": ["Download Reels", "Download Photos", "Download Videos", "Free", "No signup", "All devices"]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://anstools.xyz"},
+    {"@type": "ListItem", "position": 2, "name": "Tools", "item": "https://anstools.xyz/#tools"},
+    {"@type": "ListItem", "position": 3, "name": "Instagram Downloader", "item": "https://anstools.xyz/tools/instagram-downloader"}
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "Is the Instagram downloader free?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, completely free. No signup, no payment, no limits."}},
+    {"@type": "Question", "name": "Can I download Instagram Reels?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Our tool supports Instagram Reels, regular videos, photos, and carousels from public accounts."}},
+    {"@type": "Question", "name": "Does it work on iPhone and Android?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Works on all devices including iPhone, Android, Windows, and Mac with any modern browser."}}
+  ]
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="tool-page">
+
+  <div class="breadcrumb">
+    <a href="/">Home</a><span>/</span>
+    <a href="/#tools">Tools</a><span>/</span>
+    Instagram Downloader
+  </div>
+
+  <div class="tool-header">
+    <div class="tool-header-icon">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="2" y="2" width="20" height="20" rx="5"/>
+        <circle cx="12" cy="12" r="4"/>
+        <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/>
+      </svg>
+    </div>
+    <div>
+      <h1>Instagram Video Downloader</h1>
+      <p>Download Instagram videos, Reels, photos and Stories. Free. No signup required.</p>
+    </div>
+  </div>
+
+  <div class="tool-card-main">
+    <form method="POST" id="dlForm">
+      <div class="form-group">
+        <label>Instagram Post, Reel or Video URL</label>
+        <input type="url" name="url"
+          placeholder="https://www.instagram.com/p/... or /reel/..."
+          value="{{ request.form.get('url', '') }}" required>
+        <p style="font-size:13px;color:#94A3B8;margin-top:6px;">Post must be from a public account. Copy the URL from your browser.</p>
+      </div>
+      <button type="submit" class="btn-primary">
+        <span class="spinner"></span>Download Media
+      </button>
+    </form>
+
+    {% if result %}
+      {% if result.error %}
+      <div class="alert-error" style="margin-top:20px;">{{ result.error }}</div>
+      {% else %}
+      <div class="result-box" style="border-color:#10B981;background:#F0FDF4;margin-top:20px;">
+        {% if result.thumbnail %}
+        <img src="{{ result.thumbnail }}" alt="Instagram media preview"
+          style="width:100%;max-width:320px;border-radius:8px;margin-bottom:16px;display:block">
+        {% endif %}
+        <h4 style="color:#059669;">Media Ready to Download</h4>
+        <a href="{{ result.media }}" download class="btn-download" target="_blank" rel="noopener">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Download {{ result.type | title if result.type else 'Media' }}
+        </a>
+      </div>
+      {% endif %}
+    {% endif %}
+
+    <p style="font-size:12px;color:#94A3B8;margin-top:16px;text-align:center;">
+      Only download content from public accounts that you own or have permission to download.
+    </p>
+  </div>
+
+  <!-- HOW TO USE -->
+  <div class="seo-section">
+    <h2>How to Download Instagram Videos and Reels</h2>
+    <p>Saving Instagram videos, Reels, and photos is quick and simple with ANS Tools. Here is how to download any Instagram media in just a few steps.</p>
+    <ol class="how-to-steps">
+      <li>Open Instagram in your browser or app and navigate to the post, Reel, or video</li>
+      <li>Copy the URL from your browser's address bar (for posts it looks like instagram.com/p/ABC)</li>
+      <li>On mobile, tap the three dots on the post and select "Copy Link"</li>
+      <li>Paste the URL in the input box above on this page</li>
+      <li>Click "Download Media" and wait a few seconds for processing</li>
+      <li>Click the download button to save the video or photo to your device</li>
+    </ol>
+  </div>
+
+  <!-- WHY USE US -->
+  <div class="seo-section">
+    <h2>Why Use ANS Tools Instagram Downloader</h2>
+    <p>ANS Tools Instagram Downloader is one of the simplest and most reliable ways to save Instagram content to your device. Whether you want to save a funny Reel, preserve a memory from a friend's post, archive your own Instagram videos, or save an inspiring photo, our tool makes it effortless.</p>
+    <p>Our Instagram downloader works with all types of public Instagram content: regular video posts, Instagram Reels, IGTV videos, carousel posts, and photos. All you need is the post URL — no Instagram login, no browser extension, no app installation required.</p>
+    <p>We built this tool for content creators, social media managers, marketers, and everyday users who need a fast, reliable way to download Instagram media without jumping through hoops. The tool works in your browser and processes downloads in seconds.</p>
+    <h3>What Can You Download with Our Instagram Downloader?</h3>
+    <ul>
+      <li><strong>Instagram Reels</strong> — Download short-form vertical videos from Instagram Reels</li>
+      <li><strong>Instagram Videos</strong> — Save any regular video post from public accounts</li>
+      <li><strong>Instagram Photos</strong> — Download single photos from any public post</li>
+      <li><strong>IGTV Videos</strong> — Download longer IGTV videos posted to Instagram</li>
+      <li><strong>Carousel first item</strong> — Download the primary item from multi-image or multi-video posts</li>
+    </ul>
+    <h3>Instagram Reel Downloader</h3>
+    <p>Instagram Reels are the most searched type of Instagram download. Our Reels downloader lets you save any public Instagram Reel directly to your device as an MP4 file. This is perfect for repurposing content, saving tutorials, keeping fitness videos for reference, or downloading music reels for your personal collection.</p>
+    <h3>Instagram Photo Downloader</h3>
+    <p>Want to save a beautiful photo from Instagram? Our Instagram photo downloader lets you download full-resolution images from any public Instagram post. Simply paste the post URL and save the original quality image in seconds.</p>
+    <h3>Instagram Downloader for iPhone</h3>
+    <p>iPhone users can download Instagram videos directly using Safari without any app. The downloaded video or photo will be saved to your iPhone Photos app. No need to install third-party shortcuts or apps that compromise your privacy.</p>
+    <h3>Instagram Downloader for Android</h3>
+    <p>Android users can save Instagram Reels and videos directly to their gallery using Chrome, Firefox, or any mobile browser. The file saves to your Downloads folder and can be shared, edited, or uploaded to other platforms immediately.</p>
+  </div>
+
+  <!-- FAQ -->
+  <div class="seo-section">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>Is the Instagram downloader free to use?</h3>
+      <p>Yes, completely free. No account required, no payment, no daily limits. Download as many videos and photos as you need.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Can I download Instagram Reels with this tool?</h3>
+      <p>Yes. Our tool supports Instagram Reels, regular video posts, IGTV videos, and photos from public accounts. Just paste the Reel URL and download.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Can I download from private Instagram accounts?</h3>
+      <p>No. For privacy and security reasons, our tool only works with public Instagram accounts. Private accounts require the account holder's login credentials, which we do not support.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Does it work on iPhone, iPad, and Android?</h3>
+      <p>Yes. The downloader works on all modern browsers across all devices including iPhone (Safari), Android (Chrome), iPad, Windows PC, and Mac.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What quality are the downloaded Instagram videos?</h3>
+      <p>Downloads are provided in the highest quality available from Instagram's servers, which is the original upload quality. Instagram Reels are typically available in full HD.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Is it legal to download Instagram videos?</h3>
+      <p>You should only download content that you own, have created yourself, or have explicit permission from the creator to download and use. Downloading for personal viewing may be acceptable, but reposting or redistributing someone else's content without permission may violate copyright and Instagram's terms.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Why is my Instagram download not working?</h3>
+      <p>Common issues include: the account is private, the post has been deleted, the URL was copied incorrectly, or the post contains content protected by rights management. Make sure the Instagram account and post are both public and accessible.</p>
+    </div>
+  </div>
+
+  <!-- RELATED TOOLS -->
+  <div class="seo-section">
+    <h2>Related Tools</h2>
+    <div class="related-grid">
+      <a href="/tools/tiktok-downloader" class="related-card">
+        <span>TikTok Downloader</span>
+        <small>Download TikTok videos without watermark</small>
+      </a>
+      <a href="/tools/image-compressor" class="related-card">
+        <span>Image Compressor</span>
+        <small>Reduce photo file sizes for uploading</small>
+      </a>
+      <a href="/tools/image-resizer" class="related-card">
+        <span>Image Resizer</span>
+        <small>Resize photos to Instagram dimensions</small>
+      </a>
+    </div>
+  </div>
+
+  <div class="suggestion-widget">
+    <h3>Suggest an Improvement</h3>
+    <p>Have an idea to make this tool better? We'd love to hear it.</p>
+    <div class="suggestion-form">
+      <select id="suggestionType" class="form-control"><option value="improvement">Improvement idea</option><option value="bug">Report a bug</option><option value="feature">Feature request</option></select>
+      <textarea id="suggestionText" class="form-control" rows="3" placeholder="Describe your suggestion…"></textarea>
+      <div class="suggestion-form-row">
+        <input type="email" id="suggestionEmail" class="form-control" placeholder="Email (optional)">
+        <button id="suggestionSubmit" class="btn btn-primary" onclick="submitSuggestion('instagram-downloader')">Send Suggestion</button>
+      </div>
+      <div id="suggestionSuccess" class="suggestion-success"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Thanks! Your suggestion has been received.</div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

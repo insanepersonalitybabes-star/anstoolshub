@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% block title %}Age Calculator - Free Online | ANS Tools{% endblock %}
+{% block description %}Calculate exact age in years, months, and days online for free. Find days to next birthday and more.{% endblock %}
+{% block keywords %}age calculator, calculate age online, birthday calculator, how old am i{% endblock %}
+{% block canonical %}https://anstools.xyz/tools/age-calculator{% endblock %}
+{% block schema %}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Age Calculator","url":"https://anstools.xyz/tools/age-calculator","description":"Calculate exact age online for free.","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+{% endblock %}
+{% block content %}
+<div class="tool-page">
+  <div class="breadcrumb">
+    <a href="/">Home</a><span>/</span><a href="/#tools">Tools</a><span>/</span>Age Calculator
+  </div>
+  <div class="tool-header">
+    <div class="tool-header-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    </div>
+    <div >
+      <h1>Age Calculator</h1>
+      <p>Find your exact age in years, months, days, weeks, and hours.</p>
+    </div>
+  </div>
+
+  <div class="tool-card-main">
+    <form method="POST">
+      <div class="form-group" style="max-width:300px;">
+        <label>Date of Birth</label>
+        <input type="date" name="dob" required max="{{ import_date if import_date else '2025-01-01' }}">
+      </div>
+      <button type="submit" class="btn-primary">
+        <span class="btn-text">Calculate Age</span>
+        <span class="spinner"></span>
+      </button>
+    </form>
+
+    {% if result %}
+      {% if result.error %}
+        <div class="alert-error" style="margin-top:20px;">{{ result.error }}</div>
+      {% else %}
+        <div class="result-box" style="margin-top:24px;">
+          <div style="text-align:center;padding:20px 0 24px;border-bottom:1px solid #E2E8F0;">
+            <div style="font-family:'Space Grotesk',sans-serif;font-size:52px;font-weight:700;color:#2563EB;line-height:1;">{{ result.years }}</div>
+            <div style="font-size:18px;color:#64748B;margin-top:4px;">years old</div>
+            <div style="font-size:15px;color:#94A3B8;margin-top:8px;">Born on {{ result.dob_formatted }} &mdash; {{ result.day_of_week }}</div>
+          </div>
+          <div class="stats-grid" style="margin-top:20px;">
+            <div class="stat-card"><div class="stat-number">{{ result.months }}</div><div class="stat-label">Months (remainder)</div></div>
+            <div class="stat-card"><div class="stat-number">{{ result.days }}</div><div class="stat-label">Days (remainder)</div></div>
+            <div class="stat-card"><div class="stat-number">{{ result.total_days | int }}</div><div class="stat-label">Total Days Lived</div></div>
+            <div class="stat-card"><div class="stat-number">{{ result.total_weeks | int }}</div><div class="stat-label">Total Weeks</div></div>
+            <div class="stat-card"><div class="stat-number">{{ result.total_months }}</div><div class="stat-label">Total Months</div></div>
+            <div class="stat-card"><div class="stat-number">{{ "{:,}".format(result.total_hours) }}</div><div class="stat-label">Total Hours</div></div>
+          </div>
+          <div class="result-row" style="margin-top:16px;">
+            <span class="result-label">Next Birthday</span>
+            <span class="result-value">{{ result.next_bday }} ({{ result.days_to_bday }} days away)</span>
+          </div>
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <div class="seo-section">
+    <h2>How to Calculate Your Age Online</h2>
+    <p>Calculating your exact age in years, months, and days is instant with ANS Tools. Our age calculator does all the math for you.</p>
+    <ol class="how-to-steps">
+      <li>Click on the "Date of Birth" field to open the date picker</li>
+      <li>Select your birth year, month, and day</li>
+      <li>Click "Calculate Age" to get your exact age</li>
+      <li>View your age in years, months, days, weeks, hours, and total days lived</li>
+      <li>See how many days until your next birthday</li>
+    </ol>
+  </div>
+
+  <div class="seo-section">
+    <h2>About the Age Calculator</h2>
+    <p>The ANS Tools Age Calculator is a free online tool that computes your exact age from your date of birth to today. Unlike simple age calculators that only show years, our calculator provides a complete breakdown including the exact number of years, months, days, total weeks lived, total days lived, total hours, and a countdown to your next birthday.</p>
+    <p>Age calculation is useful in many practical situations. Banks, insurance companies, and government agencies often need your exact age to determine eligibility for products and services. Healthcare providers use age in medical calculations. Legal systems use age to determine voting rights, driving age, and retirement eligibility. Our calculator gives you all these details in seconds.</p>
+    <h3>How is Age Calculated?</h3>
+    <p>Age is calculated by finding the difference between your date of birth and today's date. The exact age considers the calendar properly — it accounts for leap years and the varying number of days in each month. For example, if you were born on February 29 (a leap year birthday), the calculator handles this correctly by using February 28 in non-leap years for your birthday.</p>
+    <h3>Fun Facts About Your Age</h3>
+    <p>Our age calculator shows you some interesting statistics about your life so far. By the time you reach 30 years old, you will have lived approximately 10,950 days, 262,800 hours, and about 1,576,800 minutes. In those 30 years, your heart will have beaten approximately 1.3 billion times. These numbers put your age in a fascinating perspective.</p>
+    <h3>Birthday Countdown</h3>
+    <p>Our tool also tells you exactly how many days are left until your next birthday. This is perfect for planning birthday parties, reminding friends and family, or just satisfying your curiosity about how long until your special day.</p>
+  </div>
+
+  <div class="seo-section">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>How do I calculate my exact age in days?</h3>
+      <p>Enter your date of birth in the calculator above and click "Calculate Age." The result will show your exact age in total days lived, accounting for leap years and calendar differences.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Is the age calculation accurate for leap year birthdays?</h3>
+      <p>Yes. Our calculator correctly handles February 29 leap year birthdays by using February 28 in non-leap years for the birthday anniversary calculation.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Can I calculate someone else's age?</h3>
+      <p>Yes. Simply enter any date of birth to calculate the age of any person. This is useful for parents calculating their child's age, HR professionals verifying ages, or anyone curious about a person's exact age.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is the difference between age in years and total days lived?</h3>
+      <p>Age in years tells you your age rounded down to complete years (e.g., 25 years). Total days lived counts every single day since your birth date, including the current partial year.</p>
+    </div>
+  </div>
+
+  <div class="seo-section">
+    <h2>Related Tools</h2>
+    <div class="related-grid">
+      <a href="/tools/bmi-calculator" class="related-card">
+        <span>BMI Calculator</span>
+        <small>Calculate your Body Mass Index</small>
+      </a>
+      <a href="/tools/tip-calculator" class="related-card">
+        <span>Tip Calculator</span>
+        <small>Calculate tip and split bills</small>
+      </a>
+      <a href="/tools/percentage-calculator" class="related-card">
+        <span>Percentage Calculator</span>
+        <small>Calculate percentages instantly</small>
+      </a>
+    </div>
+  </div>
+
+  <div class="suggestion-widget">
+    <h3>Suggest an Improvement</h3>
+    <p>Have an idea to make this tool better? We'd love to hear it.</p>
+    <div class="suggestion-form">
+      <select id="suggestionType" class="form-control"><option value="improvement">Improvement idea</option><option value="bug">Report a bug</option><option value="feature">Feature request</option></select>
+      <textarea id="suggestionText" class="form-control" rows="3" placeholder="Describe your suggestion…"></textarea>
+      <div class="suggestion-form-row">
+        <input type="email" id="suggestionEmail" class="form-control" placeholder="Email (optional)">
+        <button id="suggestionSubmit" class="btn btn-primary" onclick="submitSuggestion('age-calculator')">Send Suggestion</button>
+      </div>
+      <div id="suggestionSuccess" class="suggestion-success"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Thanks! Your suggestion has been received.</div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

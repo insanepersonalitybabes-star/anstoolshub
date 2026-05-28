@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% block title %}Readability Checker – Flesch-Kincaid Score | ANS Tools{% endblock %}
+{% block description %}Check text readability online for free. Get Flesch Reading Ease, Flesch-Kincaid Grade Level and Gunning Fog scores instantly.{% endblock %}
+{% block keywords %}readability checker, flesch kincaid score, reading level checker, readability test, readability score online{% endblock %}
+{% block canonical %}https://anstools.xyz/tools/readability-checker{% endblock %}
+
+{% block content %}
+<div class="tool-page">
+  <nav class="breadcrumb">
+    <a href="/">Home</a>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    <a href="/#tools">Tools</a>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    <span>Readability Checker</span>
+  </nav>
+
+  <div class="tool-header">
+    <div class="tool-header-icon">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+    </div>
+    <div class="tool-header-info">
+      <h1>Readability Checker</h1>
+      <p>Analyze how easy your text is to read. Get Flesch Reading Ease, Flesch-Kincaid Grade Level, and Gunning Fog scores.</p>
+    </div>
+  </div>
+
+  <div class="tool-card-main">
+    <form method="POST">
+      <div class="form-group">
+        <label for="text">Your Text</label>
+        <textarea name="text" id="text" class="form-control" rows="12" placeholder="Paste your article, essay, blog post, or any text here to analyze its readability…">{{ request.form.get('text','') }}</textarea>
+        <div class="form-hint">For best results, use at least 100 words. Works great for blog posts, articles, essays, product descriptions, and educational content.</div>
+      </div>
+      <button type="submit" class="btn btn-primary btn-lg">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Analyze Readability
+      </button>
+    </form>
+
+    {% if result %}
+    <div style="margin-top:28px;">
+      {% if result.error %}
+      <div class="alert alert-error">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        {{ result.error }}
+      </div>
+      {% else %}
+      <!-- Text Stats -->
+      <div class="stats-row" style="grid-template-columns:repeat(auto-fill,minmax(110px,1fr));">
+        <div class="stat-chip"><div class="stat-chip-num">{{ result.words }}</div><div class="stat-chip-label">Words</div></div>
+        <div class="stat-chip"><div class="stat-chip-num">{{ result.sentences }}</div><div class="stat-chip-label">Sentences</div></div>
+        <div class="stat-chip"><div class="stat-chip-num">{{ result.syllables }}</div><div class="stat-chip-label">Syllables</div></div>
+        <div class="stat-chip"><div class="stat-chip-num">{{ result.complex_words }}</div><div class="stat-chip-label">Complex Words</div></div>
+        <div class="stat-chip"><div class="stat-chip-num">{{ result.avg_sentence_length }}</div><div class="stat-chip-label">Avg Sentence Len</div></div>
+      </div>
+
+      <!-- Readability Scores -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:20px;">
+        <!-- Flesch Reading Ease -->
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:20px;">
+          <div style="font-size:.8rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;">Flesch Reading Ease</div>
+          <div style="font-size:2.5rem;font-weight:700;color:{% if result.fre >= 60 %}var(--success){% elif result.fre >= 30 %}var(--warning){% else %}var(--danger){% endif %};">{{ result.fre }}</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-bottom:10px;">{{ result.ease }}</div>
+          <div class="bmi-bar"><div class="bmi-fill" style="width:{{ result.fre }}%;background:{% if result.fre >= 60 %}var(--success){% elif result.fre >= 30 %}var(--warning){% else %}var(--danger){% endif %};"></div></div>
+          <div style="font-size:.75rem;color:var(--text3);">0 = Very Hard · 100 = Very Easy</div>
+        </div>
+
+        <!-- Flesch-Kincaid Grade Level -->
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:20px;">
+          <div style="font-size:.8rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;">Flesch-Kincaid Grade</div>
+          <div style="font-size:2.5rem;font-weight:700;color:var(--blue);">{{ result.fkgl }}</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-bottom:10px;">US Grade Level</div>
+          <div style="font-size:.8rem;background:var(--blue-light);color:var(--blue);padding:4px 10px;border-radius:100px;display:inline-block;font-weight:600;">{{ result.grade_label }}</div>
+        </div>
+
+        <!-- Gunning Fog -->
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:20px;">
+          <div style="font-size:.8rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;">Gunning Fog Index</div>
+          <div style="font-size:2.5rem;font-weight:700;color:{% if result.fog <= 12 %}var(--success){% elif result.fog <= 17 %}var(--warning){% else %}var(--danger){% endif %};">{{ result.fog }}</div>
+          <div style="font-size:.875rem;color:var(--text2);margin-bottom:10px;">Years of education needed</div>
+          <div style="font-size:.75rem;color:var(--text3);">Below 12 = clear · Above 17 = very complex</div>
+        </div>
+      </div>
+
+      <!-- Interpretation -->
+      <div class="alert alert-info" style="margin-top:20px;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <div>
+          <strong>Reading Level: {{ result.ease }} ({{ result.grade_label }})</strong><br>
+          Your text has an average sentence length of <strong>{{ result.avg_sentence_length }} words</strong> and <strong>{{ result.avg_syllables_per_word }} syllables per word</strong>.
+          {% if result.fre >= 60 %}Your text is easy to read and suitable for a general audience.
+          {% elif result.fre >= 30 %}Your text is fairly difficult. Consider simplifying sentences and using shorter words for a wider audience.
+          {% else %}Your text is very complex. It is best suited for academic or highly educated readers.{% endif %}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- Share -->
+  <div style="margin-bottom:32px;">
+    <p style="font-size:.82rem;color:var(--text3);margin-bottom:8px;">Share this tool:</p>
+    <div class="share-row">
+      <button class="share-btn share-twitter" onclick="shareUrl('twitter')"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.742l7.736-8.835L1.254 2.25H8.08l4.259 5.631ZM17.083 20.75h1.834L7.084 4.126H5.117Z"/></svg> Twitter</button>
+      <button class="share-btn share-copy" onclick="shareUrl('copy')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy Link</button>
+    </div>
+  </div>
+
+  <div class="seo-section">
+    <h2>Text Readability Checker – Flesch-Kincaid Score Online</h2>
+    <p>Readability is one of the most important factors in content writing. Content that is too complex loses readers; content that is too simple loses credibility. Our free Readability Checker analyzes your text against three proven readability formulas used by educators, publishers, and content marketers worldwide.</p>
+
+    <h3>Understanding the Three Scores</h3>
+    <div class="tool-faq-list">
+      <div class="tool-faq-item"><div class="tool-faq-q">Flesch Reading Ease (0–100)</div><div class="tool-faq-a">Scores range from 0 (very hard) to 100 (very easy). Most websites and blog posts should aim for 60–70. News articles target 60+. Academic writing typically scores 30–50.</div></div>
+      <div class="tool-faq-item"><div class="tool-faq-q">Flesch-Kincaid Grade Level</div><div class="tool-faq-a">Corresponds to US school grade levels. Grade 8 means an 8th grader can understand it. For general web content, aim for Grade 6–8. Higher grades require more education.</div></div>
+      <div class="tool-faq-item"><div class="tool-faq-q">Gunning Fog Index</div><div class="tool-faq-a">Estimates the years of formal education needed to understand the text. Below 12 is ideal for most audiences. Values above 17 indicate very complex, graduate-level writing.</div></div>
+      <div class="tool-faq-item"><div class="tool-faq-q">How can I improve my readability score?</div><div class="tool-faq-a">Use shorter sentences (aim for 15–20 words). Replace complex words with simpler alternatives. Break long paragraphs into shorter ones. Use active voice instead of passive voice. Avoid jargon unless writing for specialists.</div></div>
+    </div>
+  </div>
+
+  <div class="seo-section">
+    <h3>Related Tools</h3>
+    <div class="related-grid">
+      {% for tool in related %}<a href="/tools/{{ tool.slug }}" class="related-card"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>{{ tool.name }}</a>{% endfor %}
+    </div>
+  </div>
+
+  <div class="suggestion-widget">
+    <h3>Suggest an Improvement</h3>
+    <p>Have an idea to make this tool better?</p>
+    <div class="suggestion-form">
+      <select id="suggestionType" class="form-control"><option value="improvement">Improvement idea</option><option value="bug">Report a bug</option><option value="feature">Feature request</option></select>
+      <textarea id="suggestionText" class="form-control" rows="3" placeholder="Describe your suggestion…"></textarea>
+      <div class="suggestion-form-row">
+        <input type="email" id="suggestionEmail" class="form-control" placeholder="Email (optional)">
+        <button id="suggestionSubmit" class="btn btn-primary" onclick="submitSuggestion('readability-checker')">Send Suggestion</button>
+      </div>
+      <div id="suggestionSuccess" class="suggestion-success"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Thanks! Received.</div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% block title %}Invoice Generator - Free Online | ANS Tools{% endblock %}
+{% block description %}Generate professional PDF invoices online for free. Add items, calculate tax, download instantly. No signup needed.{% endblock %}
+{% block keywords %}invoice generator, create invoice online, free invoice maker, pdf invoice{% endblock %}
+{% block canonical %}https://anstools.xyz/tools/invoice-generator{% endblock %}
+{% block schema %}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Invoice Generator","url":"https://anstools.xyz/tools/invoice-generator","description":"Generate professional PDF invoices online for free.","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+{% endblock %}
+{% block content %}
+<div class="tool-page" style="max-width:960px;">
+  <div class="breadcrumb">
+    <a href="/">Home</a><span>/</span><a href="/#tools">Tools</a><span>/</span>Invoice Generator
+  </div>
+  <div class="tool-header">
+    <div class="tool-header-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+    </div>
+    <div >
+      <h1>Invoice Generator</h1>
+      <p>Create professional PDF invoices with line items, tax, and totals.</p>
+    </div>
+  </div>
+
+  <div class="tool-card-main">
+    <form method="POST">
+      <div class="form-row form-row-2">
+        <div>
+          <p style="font-size:14px;font-weight:600;color:#374151;margin-bottom:12px;">Business Details</p>
+          <div class="form-group"><label>Business Name</label><input type="text" name="biz_name" placeholder="Your Company Name" required></div>
+          <div class="form-group"><label>Business Address</label><input type="text" name="biz_address" placeholder="123 Main St, City, Country"></div>
+          <div class="form-group"><label>Business Email</label><input type="email" name="biz_email" placeholder="you@company.com"></div>
+        </div>
+        <div>
+          <p style="font-size:14px;font-weight:600;color:#374151;margin-bottom:12px;">Client Details</p>
+          <div class="form-group"><label>Client Name</label><input type="text" name="client_name" placeholder="Client or Company" required></div>
+          <div class="form-group"><label>Client Address</label><input type="text" name="client_address" placeholder="Client address"></div>
+          <div class="form-group"><label>Invoice Number</label><input type="text" name="invoice_no" value="INV-001"></div>
+        </div>
+      </div>
+      <div class="form-row form-row-3">
+        <div class="form-group"><label>Invoice Date</label><input type="date" name="invoice_date" value="{{ today }}"></div>
+        <div class="form-group"><label>Due Date</label><input type="date" name="due_date"></div>
+        <div class="form-group"><label>Tax Rate (%)</label><input type="number" name="tax_rate" value="0" min="0" max="100" step="0.1"></div>
+      </div>
+
+      <p style="font-size:14px;font-weight:600;color:#374151;margin:20px 0 12px;">Line Items</p>
+      <div id="invoice-items">
+        <div style="display:grid;grid-template-columns:1fr 80px 100px 32px;gap:8px;margin-bottom:6px;">
+          <span style="font-size:12px;font-weight:600;color:#94A3B8;padding-left:2px;">DESCRIPTION</span>
+          <span style="font-size:12px;font-weight:600;color:#94A3B8;">QTY</span>
+          <span style="font-size:12px;font-weight:600;color:#94A3B8;">UNIT PRICE</span>
+          <span></span>
+        </div>
+        <div class="invoice-item-row">
+          <input type="text" name="item_desc" placeholder="Service or product description" required>
+          <input type="number" name="item_qty" placeholder="1" value="1" min="0.01" step="0.01" required>
+          <input type="number" name="item_price" placeholder="0.00" value="0.00" min="0" step="0.01" required>
+          <button type="button" class="remove-item-btn" onclick="this.closest('.invoice-item-row').remove()">&times;</button>
+        </div>
+      </div>
+      <button type="button" id="add-item" class="btn-copy" style="margin:12px 0 20px;">+ Add Item</button>
+
+      <button type="submit" class="btn-primary">
+        <span class="btn-text">Generate Invoice PDF</span>
+        <span class="spinner"></span>
+      </button>
+    </form>
+
+    {% if result %}
+      {% if result.error %}
+        <div class="alert-error" style="margin-top:20px;">{{ result.error }}</div>
+      {% else %}
+        <div class="result-box" style="margin-top:24px;">
+          <div class="alert alert-success">Invoice {{ result.invoice_no }} generated. Total: ${{ result.total }}</div>
+          <div class="download-area">
+            <a href="data:application/pdf;base64,{{ result.b64 }}" download="invoice-{{ result.invoice_no }}.pdf" class="btn-download">Download Invoice PDF</a>
+          </div>
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <div class="seo-section">
+    <p>Create professional PDF invoices for free. Add your business and client details, line items with quantities and prices, set a tax rate, and download a formatted PDF invoice instantly. No account, no watermark.</p>
+    <h2>How to Generate an Invoice</h2>
+    <ol class="how-to-steps">
+      <li>Fill in your business name and client details</li>
+      <li>Set the invoice number, date, and due date</li>
+      <li>Add line items with descriptions, quantities, and prices</li>
+      <li>Set a tax rate if applicable and click "Generate Invoice PDF"</li>
+    </ol>
+  </div>
+
+  <div class="seo-section">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>Is the invoice generator free?</h3>
+      <p>Yes, completely free. No account, no subscription, no watermarks.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Can I add tax to my invoice?</h3>
+      <p>Yes. Enter a tax percentage and the calculator will automatically compute the tax amount and grand total.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What format is the invoice saved as?</h3>
+      <p>Invoices are generated as PDF files which you can download, print, or email to clients.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Can I add my company logo?</h3>
+      <p>Currently the invoice generator includes text-based branding. Logo upload may be added in a future update.</p>
+    </div>
+  </div>
+
+  <div class="seo-section">
+    <h2>Related Tools</h2>
+    <div class="related-grid">
+      <a href="/tools/pdf-merger" class="related-card">
+        <span>PDF Merger</span>
+        <small>Merge PDF documents together</small>
+      </a>
+      <a href="/tools/word-counter" class="related-card">
+        <span>Word Counter</span>
+        <small>Count words in your documents</small>
+      </a>
+      <a href="/tools/percentage-calculator" class="related-card">
+        <span>Percentage Calculator</span>
+        <small>Calculate tax percentages</small>
+      </a>
+    </div>
+  </div>
+
+  <div class="suggestion-widget">
+    <h3>Suggest an Improvement</h3>
+    <p>Have an idea to make this tool better? We'd love to hear it.</p>
+    <div class="suggestion-form">
+      <select id="suggestionType" class="form-control"><option value="improvement">Improvement idea</option><option value="bug">Report a bug</option><option value="feature">Feature request</option></select>
+      <textarea id="suggestionText" class="form-control" rows="3" placeholder="Describe your suggestion…"></textarea>
+      <div class="suggestion-form-row">
+        <input type="email" id="suggestionEmail" class="form-control" placeholder="Email (optional)">
+        <button id="suggestionSubmit" class="btn btn-primary" onclick="submitSuggestion('invoice-generator')">Send Suggestion</button>
+      </div>
+      <div id="suggestionSuccess" class="suggestion-success"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Thanks! Your suggestion has been received.</div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

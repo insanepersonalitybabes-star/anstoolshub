@@ -1,0 +1,321 @@
+{% extends 'base.html' %}
+{% block title %}ANS Tools - Free Online Tools for Everyone{% endblock %}
+{% block description %}29+ free online tools for images, PDF, text, calculators, converters and more. No signup. 100% free. Works on any device.{% endblock %}
+{% block keywords %}free online tools, image compressor, pdf merger, word counter, tiktok downloader, qr code generator, calculator{% endblock %}
+{% block canonical %}https://anstools.xyz{% endblock %}
+{% block og_title %}ANS Tools - 29+ Free Online Tools{% endblock %}
+{% block og_desc %}Compress images, merge PDFs, count words, generate QR codes and 25 more free tools. No signup. Instant results.{% endblock %}
+{% block schema %}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"ANS Tools","url":"https://anstools.xyz","description":"29+ free online tools for everyone.","potentialAction":{"@type":"SearchAction","target":"https://anstools.xyz/?q={search_term_string}","query-input":"required name=search_term_string"}}
+</script>
+{% endblock %}
+
+{% macro icon(name, size=22) %}
+{% set paths = {
+  'compress':'<polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="10" y1="14" x2="21" y2="3"/><line x1="3" y1="21" x2="14" y2="10"/>',
+  'expand':'<polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>',
+  'file-image':'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><circle cx="10" cy="13" r="2"/>',
+  'image':'<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>',
+  'file-pdf':'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>',
+  'file-text':'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>',
+  'align-left':'<line x1="17" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="17" y1="18" x2="3" y2="18"/>',
+  'type':'<polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/>',
+  'code':'<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>',
+  'link':'<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',
+  'calendar':'<rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>',
+  'activity':'<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>',
+  'percent':'<line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/>',
+  'refresh-cw':'<polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>',
+  'shuffle':'<polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/>',
+  'volume-2':'<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>',
+  'grid':'<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>',
+  'credit-card':'<rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>',
+  'dollar-sign':'<line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>',
+  'lock':'<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+  'droplet':'<path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>',
+  'tag':'<path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/>',
+  'video':'<polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/>',
+  'instagram':'<rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>',
+  'youtube':'<path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.4a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/>',
+  'braces':'<path d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5c0 1.1.9 2 2 2h1"/><path d="M16 21h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1"/>',
+  'book-open':'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
+  'git-diff':'<circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" y1="9" x2="6" y2="21"/>',
+  'download':'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>',
+  'calculator':'<rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="12" y2="14"/>'
+} %}
+<svg width="{{ size }}" height="{{ size }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">{{ paths.get(name, '<rect x="4" y="2" width="16" height="20" rx="2"/>') | safe }}</svg>
+{% endmacro %}
+
+{% block content %}
+
+<!-- ── HERO ───────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-badge">
+        <span></span> 29+ Free Tools &nbsp;·&nbsp; No Signup Required
+      </div>
+      <h1>The <span>Smartest</span> Free<br>Online Tools Platform</h1>
+      <p class="hero-sub">Compress images, convert files, generate QR codes, download videos, and 25+ more powerful tools — all free, all instant, right in your browser.</p>
+      <div class="hero-search">
+        <span class="search-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </span>
+        <input type="text" id="heroSearch" placeholder="Search 29+ tools… e.g. compress, PDF, QR code, TikTok" autocomplete="off">
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><span class="hero-stat-num">29+</span><span class="hero-stat-label">Free Tools</span></div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat"><span class="hero-stat-num">0</span><span class="hero-stat-label">Signup Required</span></div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat"><span class="hero-stat-num">100%</span><span class="hero-stat-label">Free Forever</span></div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat"><span class="hero-stat-num">Any</span><span class="hero-stat-label">Device Supported</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── POPULAR TOOLS ──────────────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Most Used</div>
+      <h2 class="section-title">Popular Tools</h2>
+      <p class="section-desc">The tools our users love most. Fast, accurate, and always free.</p>
+    </div>
+    <div class="popular-grid">
+      {% for tool in popular %}
+      <a href="/tools/{{ tool.slug }}" class="popular-card">
+        <div class="popular-card-icon cat-{{ tool.category }}">{{ icon(tool.icon) }}</div>
+        <div class="popular-card-info">
+          <div class="popular-card-name">{{ tool.name }}</div>
+          <div class="popular-card-desc">{{ tool.desc }}</div>
+        </div>
+        <div class="popular-card-arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ── CATEGORIES ─────────────────────────────────────────────── -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header center">
+      <div class="section-label">Browse by Type</div>
+      <h2 class="section-title">Tool Categories</h2>
+      <p class="section-desc">Everything you need organized into easy-to-find categories.</p>
+    </div>
+    <div class="cat-grid">
+      {% set cat_info = [
+        ('images','image','Image Tools','5 tools','background:#EFF6FF;color:#2563EB'),
+        ('pdf','file-text','PDF Tools','3 tools','background:#FFF1F2;color:#E11D48'),
+        ('text','type','Text Tools','12 tools','background:#F0FDF4;color:#16A34A'),
+        ('calculators','calculator','Calculators','6 tools','background:#FFF7ED;color:#EA580C'),
+        ('converters','refresh-cw','Converters','2 tools','background:#F5F3FF;color:#7C3AED'),
+        ('downloaders','download','Downloaders','3 tools','background:#ECFDF5;color:#059669'),
+      ] %}
+      {% for cat_id, cat_icon, cat_label, cat_count, cat_style in cat_info %}
+      <div class="cat-card" onclick="(function(){document.getElementById('toolSearch').value='';var btn=document.querySelector('[data-cat=\'{{cat_id}}\']');if(btn)btn.click();var el=document.getElementById('tools');if(el)el.scrollIntoView({behavior:'smooth'});})()">
+        <div class="cat-card-icon" style="{{ cat_style }}">{{ icon(cat_icon, 24) }}</div>
+        <div class="cat-card-name">{{ cat_label }}</div>
+        <div class="cat-card-count">{{ cat_count }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ── NEW TOOLS ──────────────────────────────────────────────── -->
+{% if new_tools %}
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Just Added</div>
+      <h2 class="section-title">New in 2026</h2>
+      <p class="section-desc">Freshly launched tools with strong search demand and utility.</p>
+    </div>
+    <div class="popular-grid">
+      {% for tool in new_tools %}
+      <a href="/tools/{{ tool.slug }}" class="popular-card">
+        <div class="popular-card-icon cat-{{ tool.category }}">{{ icon(tool.icon) }}</div>
+        <div class="popular-card-info">
+          <div class="popular-card-name">{{ tool.name }} <span class="badge badge-new">New</span></div>
+          <div class="popular-card-desc">{{ tool.desc }}</div>
+        </div>
+        <div class="popular-card-arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ── ALL TOOLS GRID ──────────────────────────────────────────── -->
+<section class="section section-alt" id="tools">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Complete Collection</div>
+      <h2 class="section-title">All 29+ Tools</h2>
+      <p class="section-desc">Search or filter by category to find exactly what you need.</p>
+    </div>
+    <div style="position:relative;max-width:480px;margin-bottom:24px;">
+      <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#94A3B8;pointer-events:none;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+      <input type="text" id="toolSearch" class="form-control" placeholder="Search tools…" style="padding-left:42px;" autocomplete="off">
+    </div>
+    <div class="category-filter">
+      {% for cat in categories %}
+      <button class="filter-btn {% if loop.first %}active{% endif %}" data-cat="{{ cat.id }}">
+        {% if cat.id != 'all' %}{{ icon(cat.icon, 15) }}{% endif %}
+        {{ cat.label }}
+      </button>
+      {% endfor %}
+    </div>
+    <div class="tools-grid">
+      {% for tool in tools %}
+      <a href="/tools/{{ tool.slug }}" class="tool-card" data-category="{{ tool.category }}" data-name="{{ tool.name }}" data-desc="{{ tool.desc }}">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;">
+          <div class="tool-card-icon">{{ icon(tool.icon) }}</div>
+          {% if tool.get('popular') %}<span class="badge badge-popular">Popular</span>{% endif %}
+          {% if tool.get('new') %}<span class="badge badge-new">New</span>{% endif %}
+        </div>
+        <div class="tool-card-name">{{ tool.name }}</div>
+        <div class="tool-card-desc">{{ tool.desc }}</div>
+        <div class="tool-card-footer">
+          <span class="tool-card-link">Use Tool <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+    <div id="noResults" style="display:none;text-align:center;padding:48px;color:var(--text3);">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin:0 auto 12px;display:block;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <strong style="color:var(--text2);">No tools found</strong><br>Try a different search term.
+    </div>
+  </div>
+</section>
+
+<!-- ── FEATURES ───────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="section-header center">
+      <div class="section-label">Why ANS Tools</div>
+      <h2 class="section-title">Built for Everyone</h2>
+      <p class="section-desc">No account. No payment. No software to install. Everything works right in your browser.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div class="feature-title">Instant Results</div>
+        <div class="feature-desc">All tools run directly in your browser. No upload queues, no waiting. Get results in seconds, every time.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div class="feature-title">100% Private</div>
+        <div class="feature-desc">Your files are never stored or shared. All processing is secure and your content stays yours.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+        <div class="feature-title">Works on Any Device</div>
+        <div class="feature-desc">Phone, tablet, or desktop — all tools are fully optimized for every screen size and browser.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <div class="feature-title">Always 100% Free</div>
+        <div class="feature-desc">Every tool is free with no hidden fees, no premium tier, and no expiration. Free forever, for everyone.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></div>
+        <div class="feature-title">SEO Optimized</div>
+        <div class="feature-desc">Every tool page has full meta tags, structured data, and rich content designed for top Google rankings.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+        <div class="feature-title">No Installation</div>
+        <div class="feature-desc">Open any tool and start working immediately. No app to download, no extension, no account to create.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── HOW IT WORKS ───────────────────────────────────────────── -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header center">
+      <div class="section-label">Simple Process</div>
+      <h2 class="section-title">How It Works</h2>
+      <p class="section-desc">Using ANS Tools is as simple as 1-2-3. No technical knowledge required.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-number">1</div>
+        <div class="step-title">Choose Your Tool</div>
+        <div class="step-desc">Search or browse our 29+ free tools. Pick from image compressors, PDF tools, text utilities, calculators, and more.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-number">2</div>
+        <div class="step-title">Enter Your Data</div>
+        <div class="step-desc">Upload a file, paste text, or fill in the form. All tools have a simple interface designed for ease of use.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-number">3</div>
+        <div class="step-title">Get Instant Results</div>
+        <div class="step-desc">Your result appears in seconds. Download, copy, or share it directly from the page. Done!</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FAQ ────────────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="section-header center">
+      <div class="section-label">Questions Answered</div>
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      <p class="section-desc">Everything you need to know about ANS Tools.</p>
+    </div>
+    <div class="faq-list">
+      {% for q, a in [
+        ('Is ANS Tools completely free?', 'Yes — every single tool on ANS Tools is 100% free to use. There is no premium plan, no subscription, and no hidden charges. All 29+ tools are free forever.'),
+        ('Do I need to create an account?', 'No account required. Use any tool instantly without signing up or logging in. Just open the tool and start working.'),
+        ('Is my data safe and private?', 'Yes. All file processing happens securely and we never store your files or share your data with third parties. Your content is yours.'),
+        ('Which file formats are supported?', 'Image tools support JPG, PNG, and WebP. PDF tools support PDF files up to 16MB. Text tools work with any pasted text. Check each tool page for specifics.'),
+        ('Can I use ANS Tools on my phone?', 'Absolutely. ANS Tools is fully responsive and works perfectly on smartphones, tablets, laptops, and desktops across all major browsers.'),
+        ('How many tools does ANS Tools have?', 'ANS Tools currently offers 29+ free tools including image compressors, PDF mergers, text utilities, calculators, converters, QR code generators, video downloaders, and developer tools. We regularly add more.'),
+        ('Can I suggest a new tool?', 'Yes! On every tool page there is a suggestions box where you can submit ideas for new tools or improvements. We review all suggestions and prioritize based on demand.'),
+      ] %}
+      <div class="faq-item">
+        <button class="faq-question">{{ q }}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-answer">{{ a }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ── SEO CONTENT ────────────────────────────────────────────── -->
+<section class="section section-alt">
+  <div class="container">
+    <div style="max-width:860px;margin:0 auto;">
+      <h2 style="margin-bottom:20px;">Free Online Tools — No Signup, No Download</h2>
+      <p style="color:var(--text2);line-height:1.8;margin-bottom:16px;">ANS Tools is a comprehensive free online tools platform helping you accomplish everyday digital tasks quickly — right in your browser. Whether you need to compress an image for your website, convert files, count words, calculate loan EMI, generate a QR code, or download a TikTok video without watermark, ANS Tools has you covered.</p>
+      <p style="color:var(--text2);line-height:1.8;margin-bottom:16px;">Our platform features <strong>29+ free tools</strong> across six categories: Image Tools, PDF Tools, Text Tools, Calculators, Converters, and Downloaders. Every tool is built to be fast, accurate, and user-friendly — no technical knowledge required.</p>
+      <p style="color:var(--text2);line-height:1.8;">Unlike many other tool websites, ANS Tools never requires you to create an account, never shows intrusive popups, and never puts results behind a paywall. Powerful tools should be accessible to everyone, everywhere, for free.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ────────────────────────────────────────────────────── -->
+<section class="cta-section">
+  <div class="container">
+    <h2>Ready to Get Started?</h2>
+    <p>Join thousands of users who rely on ANS Tools every day. All tools are free, instant, and require no signup.</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+      <a href="#tools" class="btn btn-white btn-lg">Browse All Tools</a>
+      <a href="/contact" class="btn btn-ghost btn-lg">Contact Us</a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

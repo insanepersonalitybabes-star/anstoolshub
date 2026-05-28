@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% block title %}Image to PDF - Free Online | ANS Tools{% endblock %}
+{% block description %}Convert images to PDF online for free. Multiple images to one PDF. JPG, PNG supported. No signup needed.{% endblock %}
+{% block keywords %}image to pdf, convert image to pdf, jpg to pdf, png to pdf online{% endblock %}
+{% block canonical %}https://anstools.xyz/tools/image-to-pdf{% endblock %}
+{% block schema %}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Image to PDF Converter","url":"https://anstools.xyz/tools/image-to-pdf","description":"Convert images to PDF online for free.","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+{% endblock %}
+{% block content %}
+<div class="tool-page">
+  <div class="breadcrumb">
+    <a href="/">Home</a><span>/</span><a href="/#tools">Tools</a><span>/</span>Image to PDF
+  </div>
+  <div class="tool-header">
+    <div class="tool-header-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+    </div>
+    <div >
+      <h1>Image to PDF</h1>
+      <p>Convert one or multiple images into a single PDF document instantly.</p>
+    </div>
+  </div>
+
+  <div class="tool-card-main">
+    <form method="POST" enctype="multipart/form-data">
+      <div class="form-group">
+        <label>Upload Images (JPG or PNG — select multiple files)</label>
+        <input type="file" name="images" accept="image/jpeg,image/png" multiple required style="padding:10px 16px;">
+        <p style="font-size:13px;color:#94A3B8;margin-top:6px;">Hold Ctrl/Cmd to select multiple files. Each image becomes one PDF page.</p>
+      </div>
+      <button type="submit" class="btn-primary">
+        <span class="btn-text">Convert to PDF</span>
+        <span class="spinner"></span>
+      </button>
+    </form>
+
+    {% if result %}
+      {% if result.error %}
+        <div class="alert-error" style="margin-top:20px;">{{ result.error }}</div>
+      {% else %}
+        <div class="result-box">
+          <div class="alert alert-success">PDF created from {{ result.count }} image(s) successfully.</div>
+          <div class="download-area">
+            <a href="data:application/pdf;base64,{{ result.b64 }}" download="images.pdf" class="btn-download">Download PDF</a>
+          </div>
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <div class="seo-section">
+    <p>Convert JPG and PNG images to PDF documents for free. Upload multiple images and they will each become a separate page in the resulting PDF. Great for creating photo albums, portfolios, or multi-page documents from images.</p>
+    <h2>How to Convert Images to PDF</h2>
+    <ol class="how-to-steps">
+      <li>Click the upload field and select one or more image files</li>
+      <li>Hold Ctrl (Windows) or Cmd (Mac) to select multiple images at once</li>
+      <li>Click "Convert to PDF" — each image becomes one page</li>
+      <li>Download the resulting PDF file</li>
+    </ol>
+  </div>
+
+  <div class="seo-section">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>Is the image to PDF converter free?</h3>
+      <p>Yes, completely free. No account or signup required.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Can I combine multiple images into one PDF?</h3>
+      <p>Yes. You can upload multiple images at once and they will all be combined into a single PDF document.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What image formats are supported?</h3>
+      <p>Our tool supports JPG, JPEG, and PNG images for PDF conversion.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What page size is used for the PDF?</h3>
+      <p>Images are fitted to A4 page size by default, with the image scaled to fill the page while maintaining its aspect ratio.</p>
+    </div>
+  </div>
+
+  <div class="seo-section">
+    <h2>Related Tools</h2>
+    <div class="related-grid">
+      <a href="/tools/pdf-merger" class="related-card">
+        <span>PDF Merger</span>
+        <small>Merge multiple PDFs into one</small>
+      </a>
+      <a href="/tools/image-compressor" class="related-card">
+        <span>Image Compressor</span>
+        <small>Reduce image file size first</small>
+      </a>
+      <a href="/tools/image-resizer" class="related-card">
+        <span>Image Resizer</span>
+        <small>Resize images to any dimensions</small>
+      </a>
+    </div>
+  </div>
+
+  <div class="suggestion-widget">
+    <h3>Suggest an Improvement</h3>
+    <p>Have an idea to make this tool better? We'd love to hear it.</p>
+    <div class="suggestion-form">
+      <select id="suggestionType" class="form-control"><option value="improvement">Improvement idea</option><option value="bug">Report a bug</option><option value="feature">Feature request</option></select>
+      <textarea id="suggestionText" class="form-control" rows="3" placeholder="Describe your suggestion…"></textarea>
+      <div class="suggestion-form-row">
+        <input type="email" id="suggestionEmail" class="form-control" placeholder="Email (optional)">
+        <button id="suggestionSubmit" class="btn btn-primary" onclick="submitSuggestion('image-to-pdf')">Send Suggestion</button>
+      </div>
+      <div id="suggestionSuccess" class="suggestion-success"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Thanks! Your suggestion has been received.</div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

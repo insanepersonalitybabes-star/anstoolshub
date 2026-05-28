@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% block title %}Unit Converter - Free Online | ANS Tools{% endblock %}
+{% block description %}Convert units online for free. Length, weight, temperature, volume, speed conversions. Fast and accurate.{% endblock %}
+{% block keywords %}unit converter, length converter, weight converter, temperature converter, speed converter{% endblock %}
+{% block canonical %}https://anstools.xyz/tools/unit-converter{% endblock %}
+{% block schema %}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Unit Converter","url":"https://anstools.xyz/tools/unit-converter","description":"Convert units online for free.","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+{% endblock %}
+{% block content %}
+<div class="tool-page">
+  <div class="breadcrumb">
+    <a href="/">Home</a><span>/</span><a href="/#tools">Tools</a><span>/</span>Unit Converter
+  </div>
+  <div class="tool-header">
+    <div class="tool-header-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+    </div>
+    <div >
+      <h1>Unit Converter</h1>
+      <p>Convert length, weight, temperature, volume, and speed units instantly.</p>
+    </div>
+  </div>
+
+  <div class="tool-card-main">
+    <form method="POST">
+      <div class="form-group">
+        <label>Category</label>
+        <select name="category" id="unit-category">
+          <option value="length">Length</option>
+          <option value="weight">Weight</option>
+          <option value="temperature">Temperature</option>
+          <option value="volume">Volume</option>
+          <option value="speed">Speed</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Value</label>
+        <input type="number" name="value" placeholder="Enter value" step="any" required>
+      </div>
+      <div class="form-row form-row-2">
+        <div class="form-group">
+          <label>From</label>
+          <select name="from_unit" id="unit-from"></select>
+        </div>
+        <div class="form-group">
+          <label>To</label>
+          <select name="to_unit" id="unit-to"></select>
+        </div>
+      </div>
+      <button type="submit" class="btn-primary">
+        <span class="btn-text">Convert</span>
+        <span class="spinner"></span>
+      </button>
+    </form>
+
+    {% if result %}
+      {% if result.error %}
+        <div class="alert-error" style="margin-top:20px;">{{ result.error }}</div>
+      {% else %}
+        <div class="result-box" style="margin-top:24px;text-align:center;">
+          <p style="font-size:15px;color:#64748B;">{{ result.value }} {{ result.from_unit }} =</p>
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:42px;font-weight:700;color:#2563EB;margin:8px 0;">{{ result.converted }}</div>
+          <p style="font-size:18px;color:#374151;font-weight:500;">{{ result.to_unit }}</p>
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <div class="seo-section">
+    <p>The ANS Tools Unit Converter supports five categories: length (mm to miles), weight (mg to tons), temperature (Celsius, Fahrenheit, Kelvin), volume (ml to gallons), and speed (kmh to knots). All conversions are instant and accurate.</p>
+    <h2>How to Convert Units</h2>
+    <ol class="how-to-steps">
+      <li>Select the category (length, weight, temperature, volume, or speed)</li>
+      <li>Enter the value you want to convert</li>
+      <li>Select the "From" and "To" units</li>
+      <li>Click "Convert" to see the result</li>
+    </ol>
+  </div>
+
+  <div class="seo-section">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>Is the unit converter free?</h3>
+      <p>Yes, completely free with no signup required.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What unit types are supported?</h3>
+      <p>Our unit converter supports Length, Weight, Temperature, Volume, and Speed conversions with all common units for each category.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How do I convert Celsius to Fahrenheit?</h3>
+      <p>Select 'Temperature' as the unit type, choose Celsius as the from unit, Fahrenheit as the to unit, enter your value, and click Convert.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How accurate are the conversions?</h3>
+      <p>All conversions use precise conversion factors and are accurate to 6 decimal places.</p>
+    </div>
+  </div>
+
+  <div class="seo-section">
+    <h2>Related Tools</h2>
+    <div class="related-grid">
+      <a href="/tools/percentage-calculator" class="related-card">
+        <span>Percentage Calculator</span>
+        <small>Calculate any percentage</small>
+      </a>
+      <a href="/tools/bmi-calculator" class="related-card">
+        <span>BMI Calculator</span>
+        <small>Calculate your BMI</small>
+      </a>
+      <a href="/tools/age-calculator" class="related-card">
+        <span>Age Calculator</span>
+        <small>Calculate your exact age</small>
+      </a>
+    </div>
+  </div>
+
+  <div class="suggestion-widget">
+    <h3>Suggest an Improvement</h3>
+    <p>Have an idea to make this tool better? We'd love to hear it.</p>
+    <div class="suggestion-form">
+      <select id="suggestionType" class="form-control"><option value="improvement">Improvement idea</option><option value="bug">Report a bug</option><option value="feature">Feature request</option></select>
+      <textarea id="suggestionText" class="form-control" rows="3" placeholder="Describe your suggestion…"></textarea>
+      <div class="suggestion-form-row">
+        <input type="email" id="suggestionEmail" class="form-control" placeholder="Email (optional)">
+        <button id="suggestionSubmit" class="btn btn-primary" onclick="submitSuggestion('unit-converter')">Send Suggestion</button>
+      </div>
+      <div id="suggestionSuccess" class="suggestion-success"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Thanks! Your suggestion has been received.</div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,122 @@
+{% extends 'admin/base.html' %}
+{% block admin_title %}Dashboard{% endblock %}
+{% block admin_topbar_title %}Dashboard{% endblock %}
+{% block admin_content %}
+
+<div class="admin-stats-grid">
+  <div class="admin-stat-card">
+    <div class="admin-stat-label">Total Tool Views</div>
+    <div class="admin-stat-num">{{ "{:,}".format(total_views) }}</div>
+    <div class="admin-stat-sub">All time</div>
+  </div>
+  <div class="admin-stat-card">
+    <div class="admin-stat-label">Total Tool Uses</div>
+    <div class="admin-stat-num">{{ "{:,}".format(total_uses) }}</div>
+    <div class="admin-stat-sub">All time</div>
+  </div>
+  <div class="admin-stat-card">
+    <div class="admin-stat-label">Views Today</div>
+    <div class="admin-stat-num">{{ "{:,}".format(today_views) }}</div>
+    <div class="admin-stat-sub">Since midnight</div>
+  </div>
+  <div class="admin-stat-card">
+    <div class="admin-stat-label">Total Tools</div>
+    <div class="admin-stat-num">{{ tools|length }}</div>
+    <div class="admin-stat-sub">Active tools</div>
+  </div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px;">
+  <!-- Top Tools -->
+  <div class="admin-card">
+    <div class="admin-card-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+      Most Viewed Tools
+    </div>
+    <table class="admin-table">
+      <thead><tr><th>Tool</th><th>Views</th><th>Uses</th></tr></thead>
+      <tbody>
+        {% for row in top_tools %}
+        <tr>
+          <td><a href="/tools/{{ row.tool_slug }}" style="color:var(--blue);font-weight:500;">{{ row.tool_slug }}</a></td>
+          <td>{{ "{:,}".format(row.tv or 0) }}</td>
+          <td>{{ "{:,}".format(row.tu or 0) }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="3" style="color:var(--text3);text-align:center;padding:24px;">No data yet. Views will appear after users visit tools.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Traffic Chart (last 14 days) -->
+  <div class="admin-card">
+    <div class="admin-card-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+      Traffic (Last 30 Days)
+    </div>
+    {% if daily %}
+    {% set max_v = daily|map(attribute='v')|max %}
+    <div style="display:flex;align-items:flex-end;gap:4px;height:120px;padding:8px 0;">
+      {% for row in daily[-14:] %}
+      {% set pct = (row.v / max_v * 100)|int if max_v > 0 else 5 %}
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;">
+        <div style="flex:1;display:flex;align-items:flex-end;width:100%;">
+          <div style="width:100%;background:var(--blue);border-radius:3px 3px 0 0;height:{{ pct }}%;min-height:4px;" title="{{ row.date }}: {{ row.v }} views"></div>
+        </div>
+        <span style="font-size:.6rem;color:var(--text3);writing-mode:vertical-lr;transform:rotate(180deg);">{{ row.date[-5:] }}</span>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p style="color:var(--text3);text-align:center;padding:32px;">No traffic data yet.</p>
+    {% endif %}
+  </div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+  <!-- Recent Messages -->
+  <div class="admin-card">
+    <div class="admin-card-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      Recent Messages
+      {% if unread_msgs > 0 %}<span class="admin-nav-badge">{{ unread_msgs }}</span>{% endif %}
+    </div>
+    {% for msg in recent_msgs %}
+    <div style="border-bottom:1px solid var(--border);padding:12px 0;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+        <strong style="font-size:.875rem;">{{ msg.name }}</strong>
+        <span class="admin-badge {% if msg.is_read %}admin-badge-read{% else %}admin-badge-unread{% endif %}">{% if msg.is_read %}Read{% else %}Unread{% endif %}</span>
+        <span style="font-size:.75rem;color:var(--text3);margin-left:auto;">{{ msg.created_at[:10] }}</span>
+      </div>
+      <div style="font-size:.8rem;color:var(--text2);">{{ msg.subject or '(No subject)' }}</div>
+    </div>
+    {% else %}
+    <p style="color:var(--text3);padding:12px 0;">No messages yet.</p>
+    {% endfor %}
+    <a href="/admin/messages" class="btn btn-secondary btn-sm" style="margin-top:12px;">View All Messages</a>
+  </div>
+
+  <!-- Recent Suggestions -->
+  <div class="admin-card">
+    <div class="admin-card-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+      Recent Suggestions
+    </div>
+    {% for s in recent_sugg %}
+    <div style="border-bottom:1px solid var(--border);padding:12px 0;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+        <span style="font-size:.8rem;font-weight:600;color:var(--blue);">{{ s.tool_slug }}</span>
+        <span class="admin-badge admin-badge-{{ s.status }}">{{ s.status }}</span>
+        <span style="font-size:.75rem;color:var(--text3);margin-left:auto;">{{ s.created_at[:10] }}</span>
+      </div>
+      <div style="font-size:.8rem;color:var(--text2);">{{ s.suggestion[:80] }}{% if s.suggestion|length > 80 %}…{% endif %}</div>
+    </div>
+    {% else %}
+    <p style="color:var(--text3);padding:12px 0;">No suggestions yet.</p>
+    {% endfor %}
+    <a href="/admin/suggestions" class="btn btn-secondary btn-sm" style="margin-top:12px;">View All Suggestions</a>
+  </div>
+</div>
+
+{% endblock %}

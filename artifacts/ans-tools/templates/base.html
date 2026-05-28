@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}ANS Tools - Free Online Tools{% endblock %}</title>
+  <meta name="description" content="{% block description %}Free online tools for images, PDF, text, calculators and more. No signup required.{% endblock %}">
+  <meta name="keywords" content="{% block keywords %}free online tools, image compressor, pdf merger, word counter{% endblock %}">
+  <link rel="canonical" href="{% block canonical %}https://anstools.xyz{% endblock %}">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="ANS Tools">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="{% block og_title %}ANS Tools - Free Online Tools{% endblock %}">
+  <meta property="og:description" content="{% block og_desc %}Free online tools for everyone. No signup required.{% endblock %}">
+  <meta property="og:url" content="{% block og_url %}https://anstools.xyz{% endblock %}">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="{{ g_site_title }}">
+  <meta property="og:image" content="https://anstools.xyz/static/opengraph.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{% block tw_title %}ANS Tools - Free Online Tools{% endblock %}">
+  <meta name="twitter:description" content="{% block tw_desc %}Free online tools for everyone. No signup required.{% endblock %}">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.cdnfonts.com/css/coolvetica" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+  <!-- Google Analytics -->
+  {% if g_ga_id and g_ga_id != 'G-XXXXXXXXXX' %}
+  <script async src="https://www.googletagmanager.com/gtag/js?id={{ g_ga_id }}"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','{{ g_ga_id }}');</script>
+  {% endif %}
+
+  <!-- Google AdSense -->
+  {% if g_adsense_pub and g_adsense_pub != 'ca-pub-XXXXXXXXXXXXXXXX' %}
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ g_adsense_pub }}" crossorigin="anonymous"></script>
+  {% endif %}
+
+  <!-- Schema JSON-LD -->
+  {% block schema %}
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebSite","name":"ANS Tools","url":"https://anstools.xyz","description":"Free online tools for everyone. No signup required.","potentialAction":{"@type":"SearchAction","target":"https://anstools.xyz/?q={search_term_string}","query-input":"required name=search_term_string"}}
+  </script>
+  {% endblock %}
+
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+  {% block head %}{% endblock %}
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="site-header">
+  <a href="/" class="logo">{{ g_site_title }}</a>
+  <nav>
+    <a href="/" {% if request.path == '/' %}class="active"{% endif %}>Home</a>
+    <a href="/#tools">Tools</a>
+    <a href="/about">About</a>
+    <a href="/contact">Contact</a>
+  </nav>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobileNav">
+  <a href="/">Home</a>
+  <a href="/#tools">Tools</a>
+  <a href="/about">About</a>
+  <a href="/contact">Contact</a>
+</div>
+
+<!-- MAIN CONTENT -->
+{% block content %}{% endblock %}
+
+<!-- AD SLOT – BELOW CONTENT -->
+<div class="ad-container">
+  {% if g_adsense_pub and g_adsense_pub != 'ca-pub-XXXXXXXXXXXXXXXX' %}
+  <ins class="adsbygoogle" style="display:block"
+       data-ad-client="{{ g_adsense_pub }}"
+       data-ad-slot="{{ g_adsense_slot1 }}"
+       data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+  {% endif %}
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">{{ g_site_title }}</div>
+      <p class="footer-desc">Free online tools for everyone. No signup. No download. Works on any device. 29+ tools and growing.</p>
+      <div class="footer-social">
+        <a href="#" aria-label="Twitter" onclick="shareUrl('twitter');return false;">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.742l7.736-8.835L1.254 2.25H8.08l4.259 5.631ZM17.083 20.75h1.834L7.084 4.126H5.117Z"/></svg>
+        </a>
+        <a href="#" aria-label="Facebook" onclick="shareUrl('facebook');return false;">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Image Tools</div>
+      <a href="/tools/image-compressor">Image Compressor</a>
+      <a href="/tools/image-resizer">Image Resizer</a>
+      <a href="/tools/image-to-pdf">Image to PDF</a>
+      <a href="/tools/jpg-to-png">JPG to PNG</a>
+      <a href="/tools/png-to-jpg">PNG to JPG</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Popular Tools</div>
+      <a href="/tools/word-counter">Word Counter</a>
+      <a href="/tools/tiktok-downloader">TikTok Downloader</a>
+      <a href="/tools/youtube-thumbnail">YouTube Thumbnail</a>
+      <a href="/tools/qr-generator">QR Code Generator</a>
+      <a href="/tools/password-generator">Password Generator</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Company</div>
+      <a href="/about">About Us</a>
+      <a href="/contact">Contact</a>
+      <a href="/privacy-policy">Privacy Policy</a>
+      <a href="/terms">Terms of Service</a>
+      <a href="/disclaimer">Disclaimer</a>
+      <a href="/sitemap.xml">Sitemap</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 {{ g_site_title }}. All rights reserved.</span>
+    <span><a href="/privacy-policy">Privacy</a> · <a href="/terms">Terms</a> · <a href="/sitemap.xml">Sitemap</a></span>
+  </div>
+</footer>
+
+<!-- COOKIE BANNER -->
+<div class="cookie-banner" id="cookieBanner">
+  <span>We use cookies for analytics and ads. By using this site you accept our <a href="/privacy-policy">Privacy Policy</a>.</span>
+  <button onclick="acceptCookies()">Accept</button>
+</div>
+
+<!-- BACK TO TOP -->
+<button class="back-to-top" id="backToTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

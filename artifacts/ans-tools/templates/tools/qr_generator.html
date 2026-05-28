@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% block title %}QR Code Generator - Free Online | ANS Tools{% endblock %}
+{% block description %}Generate QR codes online for free. Create QR codes for URLs, text, contact info. Download as PNG instantly.{% endblock %}
+{% block keywords %}qr code generator, create qr code, free qr code maker, qr code from url{% endblock %}
+{% block canonical %}https://anstools.xyz/tools/qr-generator{% endblock %}
+{% block schema %}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"QR Code Generator","url":"https://anstools.xyz/tools/qr-generator","description":"Generate QR codes online for free.","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+{% endblock %}
+{% block content %}
+<div class="tool-page">
+  <div class="breadcrumb">
+    <a href="/">Home</a><span>/</span><a href="/#tools">Tools</a><span>/</span>QR Code Generator
+  </div>
+  <div class="tool-header">
+    <div class="tool-header-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="3" height="3"/></svg>
+    </div>
+    <div >
+      <h1>QR Code Generator</h1>
+      <p>Create QR codes for URLs, text, or any content. Download as PNG.</p>
+    </div>
+  </div>
+
+  <div class="tool-card-main">
+    <form method="POST">
+      <div class="form-group">
+        <label>Text or URL</label>
+        <input type="text" name="text" placeholder="https://example.com or any text..." value="{% if result and result.text %}{{ result.text }}{% endif %}" required>
+      </div>
+      <div class="form-group" style="max-width:200px;">
+        <label>Size: <span id="qr-size_val">10</span>px per module</label>
+        <input type="range" id="qr-size" name="size" min="5" max="20" value="10">
+      </div>
+      <button type="submit" class="btn-primary">
+        <span class="btn-text">Generate QR Code</span>
+        <span class="spinner"></span>
+      </button>
+    </form>
+
+    {% if result %}
+      {% if result.error %}
+        <div class="alert-error" style="margin-top:20px;">{{ result.error }}</div>
+      {% else %}
+        <div class="result-box" style="margin-top:24px;text-align:center;">
+          <img src="data:image/png;base64,{{ result.b64 }}" alt="QR Code" style="max-width:300px;border:1px solid #E2E8F0;border-radius:12px;padding:16px;background:#FFFFFF;margin:0 auto 16px;">
+          <div>
+            <a href="data:image/png;base64,{{ result.b64 }}" download="qrcode.png" class="btn-download">Download QR Code PNG</a>
+          </div>
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <div class="seo-section">
+    <h2>How to Generate a QR Code Free</h2>
+    <p>Creating a QR code takes just seconds with our free online generator. No account needed. Download and use your QR code immediately.</p>
+    <ol class="how-to-steps">
+      <li>Enter the URL, text, phone number, email, or any data you want to encode</li>
+      <li>Adjust the size slider to make your QR code larger or smaller as needed</li>
+      <li>Click "Generate QR Code" to create your QR code instantly</li>
+      <li>Preview the generated QR code on screen</li>
+      <li>Click "Download QR Code PNG" to save the image to your device</li>
+      <li>Use your QR code in print materials, websites, presentations, or anywhere else</li>
+    </ol>
+  </div>
+
+  <div class="seo-section">
+    <h2>What is a QR Code and How Does It Work?</h2>
+    <p>A QR code (Quick Response code) is a two-dimensional barcode that can be scanned by any smartphone camera to instantly access the encoded information. QR codes were invented in 1994 by Denso Wave in Japan and have become one of the most widely used ways to share information digitally.</p>
+    <p>QR codes can store various types of data including website URLs, plain text, phone numbers, email addresses, Wi-Fi passwords, contact information (vCard), geographic coordinates, and much more. When someone scans a QR code with their phone camera, they are instantly directed to the encoded information without having to type anything.</p>
+    <h3>Uses for QR Codes</h3>
+    <p>QR codes have countless practical applications in everyday life and business:</p>
+    <ul>
+      <li><strong>Restaurant menus</strong> — Link to digital menus so customers can view without physical contact</li>
+      <li><strong>Business cards</strong> — Encode your contact details or website URL for easy sharing</li>
+      <li><strong>Marketing materials</strong> — Add QR codes to flyers, posters, and packaging to drive traffic</li>
+      <li><strong>Events</strong> — Use QR codes for digital tickets, check-ins, and event information</li>
+      <li><strong>Product packaging</strong> — Link to product pages, manuals, or promotional content</li>
+      <li><strong>Payments</strong> — QR codes are widely used for mobile payment systems</li>
+      <li><strong>Education</strong> — Teachers use QR codes to share resources with students</li>
+      <li><strong>Wi-Fi sharing</strong> — Encode your Wi-Fi credentials so guests can connect easily</li>
+    </ul>
+    <h3>QR Code Size Recommendations</h3>
+    <p>For print materials, QR codes should be at least 2cm x 2cm (about 0.8 inches) to ensure reliable scanning. For large-format printing like banners or posters, the QR code should be proportionally larger. Our size slider lets you control the pixel density of the QR code — use a higher setting for cleaner results when printing at large sizes.</p>
+  </div>
+
+  <div class="seo-section">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>Is the QR code generator free?</h3>
+      <p>Yes, completely free. No account required. Generate as many QR codes as you need and download them all for free.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What can I encode in a QR code?</h3>
+      <p>You can encode any text or URL — website links, email addresses, phone numbers, SMS messages, Wi-Fi credentials, contact information, or any plain text up to several hundred characters.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Can I print the downloaded QR code?</h3>
+      <p>Yes. The QR code downloads as a PNG image which you can print at any size. For print quality, use the maximum size setting in the generator for the best pixel density.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Do QR codes expire?</h3>
+      <p>QR codes generated by our tool do not expire — the encoded data is contained within the QR code image itself. However, if you encode a URL that changes or expires, the QR code will still scan but the destination may no longer be valid.</p>
+    </div>
+  </div>
+
+  <div class="seo-section">
+    <h2>Related Tools</h2>
+    <div class="related-grid">
+      <a href="/tools/password-generator" class="related-card">
+        <span>Password Generator</span>
+        <small>Generate strong secure passwords</small>
+      </a>
+      <a href="/tools/meta-tag-generator" class="related-card">
+        <span>Meta Tag Generator</span>
+        <small>Create SEO meta tags for websites</small>
+      </a>
+      <a href="/tools/url-encoder" class="related-card">
+        <span>URL Encoder/Decoder</span>
+        <small>Encode and decode URL strings</small>
+      </a>
+    </div>
+  </div>
+
+  <div class="suggestion-widget">
+    <h3>Suggest an Improvement</h3>
+    <p>Have an idea to make this tool better? We'd love to hear it.</p>
+    <div class="suggestion-form">
+      <select id="suggestionType" class="form-control"><option value="improvement">Improvement idea</option><option value="bug">Report a bug</option><option value="feature">Feature request</option></select>
+      <textarea id="suggestionText" class="form-control" rows="3" placeholder="Describe your suggestion…"></textarea>
+      <div class="suggestion-form-row">
+        <input type="email" id="suggestionEmail" class="form-control" placeholder="Email (optional)">
+        <button id="suggestionSubmit" class="btn btn-primary" onclick="submitSuggestion('qr-generator')">Send Suggestion</button>
+      </div>
+      <div id="suggestionSuccess" class="suggestion-success"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Thanks! Your suggestion has been received.</div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

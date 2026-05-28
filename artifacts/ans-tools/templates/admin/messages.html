@@ -1,0 +1,66 @@
+{% extends 'admin/base.html' %}
+{% block admin_title %}Messages{% endblock %}
+{% block admin_topbar_title %}Contact Messages{% endblock %}
+{% block admin_content %}
+
+<div class="admin-section-title">Contact Messages</div>
+<div class="admin-section-desc">Messages submitted through the Contact page. Mark as read or delete to manage your inbox.</div>
+
+{% if messages %}
+<div class="admin-card" style="padding:0;overflow:hidden;">
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Status</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Subject</th>
+        <th>Message</th>
+        <th>Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for msg in messages %}
+      <tr style="{% if not msg.is_read %}background:#FAFEFF;{% endif %}">
+        <td><span class="admin-badge {% if msg.is_read %}admin-badge-read{% else %}admin-badge-unread{% endif %}">{% if msg.is_read %}Read{% else %}Unread{% endif %}</span></td>
+        <td><strong style="font-size:.875rem;">{{ msg.name }}</strong></td>
+        <td><a href="mailto:{{ msg.email }}" style="font-size:.82rem;">{{ msg.email }}</a></td>
+        <td style="font-size:.82rem;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ msg.subject or '—' }}</td>
+        <td style="font-size:.82rem;max-width:240px;">
+          <details>
+            <summary style="cursor:pointer;color:var(--blue);">{{ msg.message[:60] }}{% if msg.message|length > 60 %}…{% endif %}</summary>
+            <div style="margin-top:8px;white-space:pre-wrap;color:var(--text2);">{{ msg.message }}</div>
+          </details>
+        </td>
+        <td style="font-size:.78rem;color:var(--text3);white-space:nowrap;">{{ msg.created_at[:16] }}</td>
+        <td>
+          <div style="display:flex;gap:6px;">
+            {% if not msg.is_read %}
+            <form method="POST" style="margin:0;">
+              <input type="hidden" name="action" value="read">
+              <input type="hidden" name="id" value="{{ msg.id }}">
+              <button type="submit" class="btn btn-secondary btn-sm">Mark Read</button>
+            </form>
+            {% endif %}
+            <form method="POST" style="margin:0;" onsubmit="return confirm('Delete this message?');">
+              <input type="hidden" name="action" value="delete">
+              <input type="hidden" name="id" value="{{ msg.id }}">
+              <button type="submit" class="btn btn-sm" style="background:#FEE2E2;color:#DC2626;border:none;cursor:pointer;padding:7px 12px;border-radius:8px;font-size:.8rem;font-weight:600;">Delete</button>
+            </form>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="admin-card" style="text-align:center;padding:64px;">
+  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin:0 auto 16px;display:block;color:var(--text3);"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+  <h3 style="color:var(--text2);font-size:1rem;">No messages yet</h3>
+  <p style="color:var(--text3);font-size:.875rem;margin-top:8px;">Messages submitted through the Contact page will appear here.</p>
+</div>
+{% endif %}
+
+{% endblock %}

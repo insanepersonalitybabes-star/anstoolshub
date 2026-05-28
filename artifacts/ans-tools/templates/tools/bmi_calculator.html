@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+{% block title %}BMI Calculator - Free Online | ANS Tools{% endblock %}
+{% block description %}Calculate your Body Mass Index (BMI) online for free. Metric and imperial units. Get your BMI category instantly.{% endblock %}
+{% block keywords %}bmi calculator, body mass index calculator, bmi calculator online, healthy weight{% endblock %}
+{% block canonical %}https://anstools.xyz/tools/bmi-calculator{% endblock %}
+{% block schema %}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"BMI Calculator","url":"https://anstools.xyz/tools/bmi-calculator","description":"Calculate BMI online for free.","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+{% endblock %}
+{% block content %}
+<div class="tool-page">
+  <div class="breadcrumb">
+    <a href="/">Home</a><span>/</span><a href="/#tools">Tools</a><span>/</span>BMI Calculator
+  </div>
+  <div class="tool-header">
+    <div class="tool-header-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    </div>
+    <div >
+      <h1>BMI Calculator</h1>
+      <p>Calculate your Body Mass Index. Supports metric and imperial units.</p>
+    </div>
+  </div>
+
+  <div class="tool-card-main">
+    <form method="POST">
+      <div class="form-group">
+        <label>Unit System</label>
+        <div style="display:flex;gap:20px;">
+          <label class="radio-row"><input type="radio" name="unit" value="metric" checked> Metric (kg, cm)</label>
+          <label class="radio-row"><input type="radio" name="unit" value="imperial"> Imperial (lb, ft/in)</label>
+        </div>
+      </div>
+      <div class="form-row form-row-2">
+        <div class="form-group">
+          <label>Weight (kg or lb)</label>
+          <input type="number" name="weight" placeholder="70" min="1" step="0.1" required>
+        </div>
+        <div class="form-group" id="height-metric">
+          <label>Height (cm)</label>
+          <input type="number" name="height" placeholder="175" min="1" step="0.1">
+        </div>
+      </div>
+      <div class="form-row form-row-2" id="height-imperial" style="display:none;">
+        <div class="form-group">
+          <label>Height (feet)</label>
+          <input type="number" name="height_ft" placeholder="5" min="1" max="9" step="1">
+        </div>
+        <div class="form-group">
+          <label>Height (inches)</label>
+          <input type="number" name="height_in" placeholder="9" min="0" max="11" step="1">
+        </div>
+      </div>
+      <button type="submit" class="btn-primary">
+        <span class="btn-text">Calculate BMI</span>
+        <span class="spinner"></span>
+      </button>
+    </form>
+
+    {% if result %}
+      {% if result.error %}
+        <div class="alert-error" style="margin-top:20px;">{{ result.error }}</div>
+      {% else %}
+        <div class="result-box" style="margin-top:24px;">
+          <div style="text-align:center;padding-bottom:24px;border-bottom:1px solid #E2E8F0;">
+            <div style="font-family:'Space Grotesk',sans-serif;font-size:56px;font-weight:700;color:{{ result.color }};line-height:1;">{{ result.bmi }}</div>
+            <div style="font-size:20px;font-weight:600;color:{{ result.color }};margin-top:6px;">{{ result.category }}</div>
+          </div>
+          <div style="margin-top:20px;">
+            <p style="font-size:13px;color:#94A3B8;margin-bottom:8px;">BMI Scale</p>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
+              <div style="text-align:center;padding:10px 8px;background:#FEF3C7;border-radius:8px;"><div style="font-size:12px;font-weight:600;color:#92400E;">Underweight</div><div style="font-size:12px;color:#78350F;">&lt; 18.5</div></div>
+              <div style="text-align:center;padding:10px 8px;background:#D1FAE5;border-radius:8px;"><div style="font-size:12px;font-weight:600;color:#065F46;">Normal</div><div style="font-size:12px;color:#064E3B;">18.5–24.9</div></div>
+              <div style="text-align:center;padding:10px 8px;background:#FEF3C7;border-radius:8px;"><div style="font-size:12px;font-weight:600;color:#92400E;">Overweight</div><div style="font-size:12px;color:#78350F;">25–29.9</div></div>
+              <div style="text-align:center;padding:10px 8px;background:#FEE2E2;border-radius:8px;"><div style="font-size:12px;font-weight:600;color:#991B1B;">Obese</div><div style="font-size:12px;color:#7F1D1D;">&ge; 30</div></div>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <div class="seo-section">
+    <h2>How to Calculate Your BMI</h2>
+    <p>Calculating your Body Mass Index takes just seconds with our free online BMI calculator. Follow these steps to get your result instantly.</p>
+    <ol class="how-to-steps">
+      <li>Select your unit system — Metric (kilograms and centimeters) or Imperial (pounds and feet/inches)</li>
+      <li>Enter your current weight in the weight field</li>
+      <li>Enter your height — in centimeters for metric, or feet and inches for imperial</li>
+      <li>Click "Calculate BMI" to see your result</li>
+      <li>View your BMI number, category, and where you fall on the BMI scale</li>
+    </ol>
+  </div>
+
+  <div class="seo-section">
+    <h2>Understanding Your BMI Result</h2>
+    <p>Body Mass Index (BMI) is a numerical value calculated from your height and weight. It is widely used by healthcare professionals as a screening tool to identify potential weight-related health risks. The BMI formula divides your weight in kilograms by the square of your height in meters.</p>
+    <p>The standard BMI categories defined by the World Health Organization (WHO) are as follows: Underweight (BMI below 18.5), Normal weight (BMI 18.5 to 24.9), Overweight (BMI 25 to 29.9), and Obese (BMI 30 and above). These categories apply to adults aged 18 and older.</p>
+    <h3>BMI for Men vs Women</h3>
+    <p>The standard BMI calculation uses the same formula for both men and women. However, it is worth noting that women typically have more body fat than men at the same BMI, and older adults typically have more body fat than younger adults at the same BMI. For this reason, BMI is a screening tool and not a direct measure of body fatness or health.</p>
+    <h3>Limitations of BMI</h3>
+    <p>While BMI is a useful and widely accepted screening tool, it has some limitations. Athletes and muscular individuals may have a high BMI due to muscle mass rather than fat. BMI may not accurately reflect health risks for elderly people who have lost muscle mass. It does not account for where fat is distributed in the body. A healthcare professional should always interpret BMI in context with other health indicators.</p>
+    <h3>Healthy Weight Range</h3>
+    <p>To maintain a healthy weight, the NHS and WHO recommend a balanced diet rich in fruits, vegetables, whole grains, and lean proteins, combined with regular physical activity of at least 150 minutes of moderate exercise per week. If your BMI indicates overweight or obesity, consulting a healthcare provider is recommended for personalized advice.</p>
+  </div>
+
+  <div class="seo-section">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>What is a healthy BMI for adults?</h3>
+      <p>A healthy BMI for adults is between 18.5 and 24.9. A BMI below 18.5 is considered underweight, 25-29.9 is overweight, and 30 or above is considered obese according to WHO guidelines.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How is BMI calculated?</h3>
+      <p>BMI is calculated by dividing your weight in kilograms by the square of your height in meters: BMI = weight (kg) ÷ height² (m). In imperial units, the formula is BMI = (weight in pounds × 703) ÷ height² (in inches).</p>
+    </div>
+    <div class="faq-item">
+      <h3>Is BMI accurate for athletes?</h3>
+      <p>BMI is less accurate for athletes and very muscular people because muscle weighs more than fat. A muscular athlete may have a high BMI despite being very healthy and having low body fat percentage.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Can I use this BMI calculator for children?</h3>
+      <p>The standard BMI calculator is designed for adults aged 18 and over. For children and teenagers, a different BMI-for-age calculation is used that accounts for age and gender-specific growth patterns.</p>
+    </div>
+  </div>
+
+  <div class="seo-section">
+    <h2>Related Tools</h2>
+    <div class="related-grid">
+      <a href="/tools/age-calculator" class="related-card">
+        <span>Age Calculator</span>
+        <small>Calculate your exact age instantly</small>
+      </a>
+      <a href="/tools/percentage-calculator" class="related-card">
+        <span>Percentage Calculator</span>
+        <small>Calculate any percentage instantly</small>
+      </a>
+      <a href="/tools/emi-calculator" class="related-card">
+        <span>EMI Calculator</span>
+        <small>Calculate loan monthly installments</small>
+      </a>
+    </div>
+  </div>
+
+  <div class="suggestion-widget">
+    <h3>Suggest an Improvement</h3>
+    <p>Have an idea to make this tool better? We'd love to hear it.</p>
+    <div class="suggestion-form">
+      <select id="suggestionType" class="form-control"><option value="improvement">Improvement idea</option><option value="bug">Report a bug</option><option value="feature">Feature request</option></select>
+      <textarea id="suggestionText" class="form-control" rows="3" placeholder="Describe your suggestion…"></textarea>
+      <div class="suggestion-form-row">
+        <input type="email" id="suggestionEmail" class="form-control" placeholder="Email (optional)">
+        <button id="suggestionSubmit" class="btn btn-primary" onclick="submitSuggestion('bmi-calculator')">Send Suggestion</button>
+      </div>
+      <div id="suggestionSuccess" class="suggestion-success"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Thanks! Your suggestion has been received.</div>
+    </div>
+  </div>
+
+</div>
+<script>
+document.querySelectorAll('input[name="unit"]').forEach(r => {
+  r.addEventListener('change', function() {
+    document.getElementById('height-metric').style.display = this.value === 'metric' ? '' : 'none';
+    document.getElementById('height-imperial').style.display = this.value === 'imperial' ? '' : 'none';
+  });
+});
+</script>
+{% endblock %}

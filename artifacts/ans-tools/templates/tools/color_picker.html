@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+{% block title %}Color Picker - Free Online | ANS Tools{% endblock %}
+{% block description %}Pick colors and convert between HEX, RGB, and HSL online for free. Visual color picker with instant conversion.{% endblock %}
+{% block keywords %}color picker, hex to rgb, rgb to hex, color converter, hsl color picker{% endblock %}
+{% block canonical %}https://anstools.xyz/tools/color-picker{% endblock %}
+{% block schema %}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Color Picker","url":"https://anstools.xyz/tools/color-picker","description":"Pick colors and convert between HEX, RGB, and HSL online for free.","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+{% endblock %}
+{% block content %}
+<div class="tool-page">
+  <div class="breadcrumb">
+    <a href="/">Home</a><span>/</span><a href="/#tools">Tools</a><span>/</span>Color Picker
+  </div>
+  <div class="tool-header">
+    <div class="tool-header-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3" fill="currentColor" stroke="none"/></svg>
+    </div>
+    <div >
+      <h1>Color Picker</h1>
+      <p>Pick a color and convert between HEX, RGB, HSL, and HSV formats.</p>
+    </div>
+  </div>
+
+  <div class="tool-card-main">
+    <div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;margin-bottom:24px;">
+      <div>
+        <label style="display:block;margin-bottom:8px;">Pick Color</label>
+        <input type="color" id="native-color-picker" value="#2563EB" style="width:80px;height:80px;border-radius:12px;border:2px solid #E2E8F0;cursor:pointer;padding:4px;">
+      </div>
+      <div style="flex:1;min-width:200px;">
+        <label style="display:block;margin-bottom:8px;">Hex Value</label>
+        <input type="text" id="hex-input" value="2563EB" placeholder="2563EB" maxlength="7" style="font-family:'JetBrains Mono',monospace;letter-spacing:0.05em;">
+        <p style="font-size:12px;color:#94A3B8;margin-top:6px;">Enter hex without # or use the color picker</p>
+      </div>
+    </div>
+
+    <div id="color-swatch" class="color-swatch" style="background:#2563EB;"></div>
+
+    <form method="POST" style="margin-top:20px;">
+      <input type="hidden" name="hex" id="form-hex" value="{{ result.hex_val if result else '2563EB' }}">
+      <button type="submit" class="btn-primary" id="convert-btn">Convert Color</button>
+    </form>
+
+    {% if result %}
+      {% if result.error %}
+        <div class="alert-error" style="margin-top:20px;">{{ result.error }}</div>
+      {% else %}
+        <div style="margin-top:24px;">
+          <h3 style="font-size:16px;font-weight:600;margin-bottom:16px;">Color Values</h3>
+          <div class="color-inputs">
+            <div class="color-val">
+              <div>
+                <div class="color-val-label">HEX</div>
+                <div class="color-val-text">{{ result.hex }}</div>
+              </div>
+              <button class="copy-btn" style="position:static;" onclick="copyText('{{ result.hex }}', this)">Copy</button>
+            </div>
+            <div class="color-val">
+              <div>
+                <div class="color-val-label">RGB</div>
+                <div class="color-val-text">{{ result.rgb }}</div>
+              </div>
+              <button class="copy-btn" style="position:static;" onclick="copyText('{{ result.rgb }}', this)">Copy</button>
+            </div>
+            <div class="color-val">
+              <div>
+                <div class="color-val-label">HSL</div>
+                <div class="color-val-text">{{ result.hsl }}</div>
+              </div>
+              <button class="copy-btn" style="position:static;" onclick="copyText('{{ result.hsl }}', this)">Copy</button>
+            </div>
+          </div>
+          <div class="color-inputs" style="margin-top:12px;">
+            <div class="color-val">
+              <div>
+                <div class="color-val-label">HSV</div>
+                <div class="color-val-text">{{ result.hsv }}</div>
+              </div>
+              <button class="copy-btn" style="position:static;" onclick="copyText('{{ result.hsv }}', this)">Copy</button>
+            </div>
+            <div class="color-val">
+              <div>
+                <div class="color-val-label">R</div>
+                <div class="color-val-text">{{ result.r }}</div>
+              </div>
+            </div>
+            <div class="color-val">
+              <div>
+                <div class="color-val-label">G / B</div>
+                <div class="color-val-text">{{ result.g }} / {{ result.b }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <div class="seo-section">
+    <p>The ANS Tools Color Picker lets you visually select any color and instantly converts it to HEX, RGB, HSL, and HSV formats. Copy any color value with one click for use in CSS, design tools, or code.</p>
+    <h2>How to Use the Color Picker</h2>
+    <ol class="how-to-steps">
+      <li>Click the color swatch to open the native color picker, or type a hex value directly</li>
+      <li>Click "Convert Color" to get all color format values</li>
+      <li>Copy any format (HEX, RGB, HSL, HSV) with the Copy button</li>
+    </ol>
+  </div>
+</div>
+<div class="seo-section">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>Is the color picker free?</h3>
+      <p>Yes, completely free. No signup or account needed.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What color formats does it support?</h3>
+      <p>HEX, RGB, and HSL are all displayed simultaneously when you pick a color.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Can I copy the color codes?</h3>
+      <p>Yes. Each color code output has a copy button so you can paste it directly into your CSS or design tool.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is the difference between HEX, RGB and HSL?</h3>
+      <p>HEX is a 6-digit code used in HTML/CSS. RGB defines colors by Red, Green, Blue channel values (0-255). HSL uses Hue (0-360°), Saturation (%), and Lightness (%) for an intuitive color model.</p>
+    </div>
+  </div>
+
+  <div class="seo-section">
+    <h2>Related Tools</h2>
+    <div class="related-grid">
+      <a href="/tools/image-compressor" class="related-card">
+        <span>Image Compressor</span>
+        <small>Reduce image file sizes</small>
+      </a>
+      <a href="/tools/meta-tag-generator" class="related-card">
+        <span>Meta Tag Generator</span>
+        <small>Generate SEO meta tags</small>
+      </a>
+      <a href="/tools/qr-generator" class="related-card">
+        <span>QR Code Generator</span>
+        <small>Create QR codes for free</small>
+      </a>
+    </div>
+  </div>
+
+  <div class="suggestion-widget">
+    <h3>Suggest an Improvement</h3>
+    <p>Have an idea to make this tool better? We'd love to hear it.</p>
+    <div class="suggestion-form">
+      <select id="suggestionType" class="form-control"><option value="improvement">Improvement idea</option><option value="bug">Report a bug</option><option value="feature">Feature request</option></select>
+      <textarea id="suggestionText" class="form-control" rows="3" placeholder="Describe your suggestion…"></textarea>
+      <div class="suggestion-form-row">
+        <input type="email" id="suggestionEmail" class="form-control" placeholder="Email (optional)">
+        <button id="suggestionSubmit" class="btn btn-primary" onclick="submitSuggestion('color-picker')">Send Suggestion</button>
+      </div>
+      <div id="suggestionSuccess" class="suggestion-success"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Thanks! Your suggestion has been received.</div>
+    </div>
+  </div>
+
+</div>
+
+</script>
+{% endblock %}

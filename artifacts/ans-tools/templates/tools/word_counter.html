@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% block title %}Word Counter - Free Online | ANS Tools{% endblock %}
+{% block description %}Count words, characters, sentences, and paragraphs online for free. Get reading time and top keywords instantly.{% endblock %}
+{% block keywords %}word counter, character counter, count words online, word count tool{% endblock %}
+{% block canonical %}https://anstools.xyz/tools/word-counter{% endblock %}
+{% block schema %}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Word Counter","url":"https://anstools.xyz/tools/word-counter","description":"Count words, characters, sentences and paragraphs online for free.","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+{% endblock %}
+{% block content %}
+<div class="tool-page">
+  <div class="breadcrumb">
+    <a href="/">Home</a><span>/</span><a href="/#tools">Tools</a><span>/</span>Word Counter
+  </div>
+  <div class="tool-header">
+    <div class="tool-header-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="15" y2="18"/></svg>
+    </div>
+    <div >
+      <h1>Word Counter</h1>
+      <p>Count words, characters, sentences, paragraphs, and reading time instantly.</p>
+    </div>
+  </div>
+
+  <div class="tool-card-main">
+    <form method="POST">
+      <div class="form-group">
+        <label>Enter or paste your text</label>
+        <textarea name="text" rows="8" placeholder="Start typing or paste your text here...">{% if result and result.text %}{{ result.text }}{% endif %}</textarea>
+      </div>
+      <button type="submit" class="btn-primary">
+        <span class="btn-text">Count Words</span>
+        <span class="spinner"></span>
+      </button>
+    </form>
+
+    {% if result %}
+      {% if result.error %}
+        <div class="alert-error" style="margin-top:20px;">{{ result.error }}</div>
+      {% else %}
+        <div class="result-box" style="margin-top:24px;">
+          <div class="stats-grid">
+            <div class="stat-card"><div class="stat-number">{{ result.words }}</div><div class="stat-label">Words</div></div>
+            <div class="stat-card"><div class="stat-number">{{ result.characters }}</div><div class="stat-label">Characters</div></div>
+            <div class="stat-card"><div class="stat-number">{{ result.characters_no_spaces }}</div><div class="stat-label">Chars (no spaces)</div></div>
+            <div class="stat-card"><div class="stat-number">{{ result.sentences }}</div><div class="stat-label">Sentences</div></div>
+            <div class="stat-card"><div class="stat-number">{{ result.paragraphs }}</div><div class="stat-label">Paragraphs</div></div>
+            <div class="stat-card"><div class="stat-number">{{ result.reading_time }} min</div><div class="stat-label">Reading Time</div></div>
+          </div>
+          <div style="margin-top:16px;">
+            <div class="result-row"><span class="result-label">Speaking Time</span><span class="result-value">{{ result.speaking_time }} min</span></div>
+            {% if result.top_keywords %}
+            <div style="margin-top:16px;">
+              <p style="font-size:14px;font-weight:600;color:#374151;margin-bottom:10px;">Top Keywords</p>
+              {% for word, count in result.top_keywords %}
+              <span style="display:inline-block;background:#EFF6FF;color:#2563EB;padding:4px 10px;border-radius:6px;font-size:13px;font-weight:500;margin:3px;">{{ word }} ({{ count }})</span>
+              {% endfor %}
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <div class="seo-section">
+    <h2>How to Use the Word Counter</h2>
+    <p>Using our free online word counter is simple and instant. Whether you are writing an essay, blog post, social media caption, or report, you can check your word count in seconds.</p>
+    <ol class="how-to-steps">
+      <li>Type your text directly into the text area, or paste text from another document</li>
+      <li>Click the "Count Words" button to analyze your text</li>
+      <li>View your word count, character count, sentence count, and paragraph count instantly</li>
+      <li>Check reading time and speaking time estimates for your content</li>
+      <li>See the top keywords and their frequency in your text</li>
+    </ol>
+  </div>
+
+  <div class="seo-section">
+    <h2>About the ANS Tools Word Counter</h2>
+    <p>The ANS Tools Word Counter is a free, fast, and accurate online tool for counting words, characters, sentences, and paragraphs in any text. Whether you are a student meeting an essay word limit, a writer tracking your daily output, a blogger checking SEO requirements, or a professional editing a report, our word counter gives you everything you need in one place.</p>
+    <p>Unlike basic word counters that only count words, our tool provides comprehensive text analysis including character count with and without spaces, sentence count, paragraph count, estimated reading time (based on average 200 words per minute), estimated speaking time (based on average 130 words per minute), and the top 10 most frequently used keywords in your text.</p>
+    <h3>Why Word Count Matters</h3>
+    <p>Word count is important for many different reasons. Students and academics need to meet minimum or maximum word count requirements for essays, research papers, and dissertations. Content writers and bloggers need to hit target word counts for SEO — longer content (1500+ words) tends to rank better in Google search results. Social media managers need to stay within character limits for platforms like Twitter, LinkedIn, and Instagram. Authors and novelists track their daily word count progress toward their book goals.</p>
+    <h3>Character Counter</h3>
+    <p>The character count function is particularly useful for social media posts where platforms impose strict character limits. Twitter/X limits tweets to 280 characters. Meta descriptions for SEO should be 150-160 characters. SMS messages have a 160-character limit. Our tool counts both total characters including spaces and characters excluding spaces, giving you both metrics at once.</p>
+    <h3>Reading Time Calculator</h3>
+    <p>Our reading time estimate is based on the average adult reading speed of approximately 200-250 words per minute. This is useful for estimating how long a blog post, article, or presentation will take to read. A 1,000-word article typically takes around 4-5 minutes to read. Content with complex technical language may take longer.</p>
+  </div>
+
+  <div class="seo-section">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>Is this word counter free?</h3>
+      <p>Yes, completely free. No signup, no account, no payment required. Use it as many times as you need.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How accurate is the word counter?</h3>
+      <p>Our word counter is highly accurate. It counts words by splitting text on whitespace and punctuation, following standard word counting conventions used by most word processors.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Does the word counter save my text?</h3>
+      <p>No. Your text is processed and the results are returned to you. We do not store, save, or log any text you enter into the word counter.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What is the maximum text length I can count?</h3>
+      <p>Our word counter can handle very long texts — entire book chapters, long articles, and full documents. There is no practical limit for normal use.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Can I count words in multiple languages?</h3>
+      <p>Yes. The word counter works with any language that uses spaces between words, including English, Spanish, French, German, and most European languages.</p>
+    </div>
+  </div>
+
+  <div class="seo-section">
+    <h2>Related Tools</h2>
+    <div class="related-grid">
+      <a href="/tools/case-converter" class="related-card">
+        <span>Case Converter</span>
+        <small>Convert text to UPPERCASE, lowercase, Title Case</small>
+      </a>
+      <a href="/tools/base64" class="related-card">
+        <span>Base64 Encoder</span>
+        <small>Encode and decode Base64 strings</small>
+      </a>
+      <a href="/tools/meta-tag-generator" class="related-card">
+        <span>Meta Tag Generator</span>
+        <small>Generate SEO meta tags for your website</small>
+      </a>
+    </div>
+  </div>
+
+  <div class="suggestion-widget">
+    <h3>Suggest an Improvement</h3>
+    <p>Have an idea to make this tool better? We'd love to hear it.</p>
+    <div class="suggestion-form">
+      <select id="suggestionType" class="form-control"><option value="improvement">Improvement idea</option><option value="bug">Report a bug</option><option value="feature">Feature request</option></select>
+      <textarea id="suggestionText" class="form-control" rows="3" placeholder="Describe your suggestion…"></textarea>
+      <div class="suggestion-form-row">
+        <input type="email" id="suggestionEmail" class="form-control" placeholder="Email (optional)">
+        <button id="suggestionSubmit" class="btn btn-primary" onclick="submitSuggestion('word-counter')">Send Suggestion</button>
+      </div>
+      <div id="suggestionSuccess" class="suggestion-success"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Thanks! Your suggestion has been received.</div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+{% block title %}EMI Calculator - Free Online | ANS Tools{% endblock %}
+{% block description %}Calculate loan EMI online for free. Get monthly installment, total interest, and amortization schedule instantly.{% endblock %}
+{% block keywords %}emi calculator, loan emi calculator, monthly installment, home loan emi, car loan emi{% endblock %}
+{% block canonical %}https://anstools.xyz/tools/emi-calculator{% endblock %}
+{% block schema %}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"EMI Calculator","url":"https://anstools.xyz/tools/emi-calculator","description":"Calculate loan EMI online for free.","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+{% endblock %}
+{% block content %}
+<div class="tool-page">
+  <div class="breadcrumb">
+    <a href="/">Home</a><span>/</span><a href="/#tools">Tools</a><span>/</span>EMI Calculator
+  </div>
+  <div class="tool-header">
+    <div class="tool-header-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+    </div>
+    <div >
+      <h1>EMI Calculator</h1>
+      <p>Calculate monthly loan installments, total interest, and repayment schedule.</p>
+    </div>
+  </div>
+
+  <div class="tool-card-main">
+    <form method="POST">
+      <div class="form-row form-row-3">
+        <div class="form-group">
+          <label>Loan Amount ($)</label>
+          <input type="number" name="principal" placeholder="100000" min="1" step="any" required>
+        </div>
+        <div class="form-group">
+          <label>Annual Interest Rate (%)</label>
+          <input type="number" name="rate" placeholder="8.5" min="0.01" step="any" required>
+        </div>
+        <div class="form-group">
+          <label>Loan Tenure (months)</label>
+          <input type="number" name="tenure" placeholder="60" min="1" step="1" required>
+        </div>
+      </div>
+      <button type="submit" class="btn-primary">
+        <span class="btn-text">Calculate EMI</span>
+        <span class="spinner"></span>
+      </button>
+    </form>
+
+    {% if result %}
+      {% if result.error %}
+        <div class="alert-error" style="margin-top:20px;">{{ result.error }}</div>
+      {% else %}
+        <div class="result-box" style="margin-top:24px;">
+          <div class="stats-grid" style="grid-template-columns:repeat(3,1fr);">
+            <div class="stat-card">
+              <div class="stat-number">${{ "{:,.2f}".format(result.emi) }}</div>
+              <div class="stat-label">Monthly EMI</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number" style="color:#EF4444;">${{ "{:,.2f}".format(result.total_interest) }}</div>
+              <div class="stat-label">Total Interest</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number">${{ "{:,.2f}".format(result.total_payment) }}</div>
+              <div class="stat-label">Total Payment</div>
+            </div>
+          </div>
+          <div style="margin-top:20px;">
+            <p style="font-size:14px;font-weight:600;color:#374151;margin-bottom:12px;">Amortization Schedule (first 12 months)</p>
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead><tr><th>Month</th><th>EMI</th><th>Principal</th><th>Interest</th><th>Balance</th></tr></thead>
+                <tbody>
+                  {% for row in result.schedule %}
+                  <tr>
+                    <td>{{ row.month }}</td>
+                    <td>${{ "{:,.2f}".format(row.emi) }}</td>
+                    <td>${{ "{:,.2f}".format(row.principal) }}</td>
+                    <td>${{ "{:,.2f}".format(row.interest) }}</td>
+                    <td>${{ "{:,.2f}".format(row.balance) }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <div class="seo-section">
+    <p>The EMI (Equated Monthly Installment) Calculator helps you determine your monthly loan payments for home loans, car loans, personal loans, and more. Enter the principal amount, interest rate, and tenure to instantly see your EMI, total interest payable, and a month-by-month amortization schedule.</p>
+    <h2>How to Calculate EMI</h2>
+    <ol class="how-to-steps">
+      <li>Enter the loan amount (principal)</li>
+      <li>Enter the annual interest rate as a percentage</li>
+      <li>Enter the loan tenure in months</li>
+      <li>Click "Calculate EMI" to see monthly installment and full schedule</li>
+    </ol>
+  </div>
+
+  <div class="seo-section">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>What is EMI?</h3>
+      <p>EMI stands for Equated Monthly Installment. It is the fixed payment amount you make to a lender each month until the loan is fully repaid, including both principal and interest.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How is EMI calculated?</h3>
+      <p>EMI is calculated using the formula: EMI = P × r × (1+r)^n / ((1+r)^n - 1), where P is the principal loan amount, r is the monthly interest rate, and n is the number of months.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Is the EMI calculator free?</h3>
+      <p>Yes, completely free. No signup required.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Can I use this for car loans, home loans, and personal loans?</h3>
+      <p>Yes. The EMI calculator works for any type of loan including home loans, car loans, personal loans, and education loans.</p>
+    </div>
+  </div>
+
+  <div class="seo-section">
+    <h2>Related Tools</h2>
+    <div class="related-grid">
+      <a href="/tools/percentage-calculator" class="related-card">
+        <span>Percentage Calculator</span>
+        <small>Calculate any percentage instantly</small>
+      </a>
+      <a href="/tools/tip-calculator" class="related-card">
+        <span>Tip Calculator</span>
+        <small>Calculate tip and split bills</small>
+      </a>
+      <a href="/tools/age-calculator" class="related-card">
+        <span>Age Calculator</span>
+        <small>Calculate exact age instantly</small>
+      </a>
+    </div>
+  </div>
+
+  <div class="suggestion-widget">
+    <h3>Suggest an Improvement</h3>
+    <p>Have an idea to make this tool better? We'd love to hear it.</p>
+    <div class="suggestion-form">
+      <select id="suggestionType" class="form-control"><option value="improvement">Improvement idea</option><option value="bug">Report a bug</option><option value="feature">Feature request</option></select>
+      <textarea id="suggestionText" class="form-control" rows="3" placeholder="Describe your suggestion…"></textarea>
+      <div class="suggestion-form-row">
+        <input type="email" id="suggestionEmail" class="form-control" placeholder="Email (optional)">
+        <button id="suggestionSubmit" class="btn btn-primary" onclick="submitSuggestion('emi-calculator')">Send Suggestion</button>
+      </div>
+      <div id="suggestionSuccess" class="suggestion-success"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Thanks! Your suggestion has been received.</div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

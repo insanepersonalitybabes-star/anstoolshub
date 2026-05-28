@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% block title %}Tip Calculator - Free Online | ANS Tools{% endblock %}
+{% block description %}Calculate tip and split bill online for free. Find tip amount per person and total bill with tip instantly.{% endblock %}
+{% block keywords %}tip calculator, bill splitter, calculate tip, tip per person, restaurant tip{% endblock %}
+{% block canonical %}https://anstools.xyz/tools/tip-calculator{% endblock %}
+{% block schema %}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Tip Calculator","url":"https://anstools.xyz/tools/tip-calculator","description":"Calculate tip and split bill online for free.","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+{% endblock %}
+{% block content %}
+<div class="tool-page">
+  <div class="breadcrumb">
+    <a href="/">Home</a><span>/</span><a href="/#tools">Tools</a><span>/</span>Tip Calculator
+  </div>
+  <div class="tool-header">
+    <div class="tool-header-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 9V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2m2 4h10a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2zm7-5a2 2 0 1 1-4 0 2 2 0 0 1 4 0z"/></svg>
+    </div>
+    <div >
+      <h1>Tip Calculator</h1>
+      <p>Calculate tip amount and split the bill equally among multiple people.</p>
+    </div>
+  </div>
+
+  <div class="tool-card-main">
+    <form method="POST">
+      <div class="form-row form-row-3">
+        <div class="form-group">
+          <label>Bill Amount ($)</label>
+          <input type="number" name="bill" placeholder="50.00" min="0.01" step="0.01" required>
+        </div>
+        <div class="form-group">
+          <label>Tip Percentage (%)</label>
+          <input type="number" name="tip_percent" value="15" min="0" max="100" step="0.5" required>
+        </div>
+        <div class="form-group">
+          <label>Number of People</label>
+          <input type="number" name="people" value="1" min="1" step="1" required>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;">
+        <button type="button" class="pill" onclick="setTip(10)">10%</button>
+        <button type="button" class="pill" onclick="setTip(15)">15%</button>
+        <button type="button" class="pill" onclick="setTip(18)">18%</button>
+        <button type="button" class="pill" onclick="setTip(20)">20%</button>
+        <button type="button" class="pill" onclick="setTip(25)">25%</button>
+      </div>
+      <button type="submit" class="btn-primary">
+        <span class="btn-text">Calculate Tip</span>
+        <span class="spinner"></span>
+      </button>
+    </form>
+
+    {% if result %}
+      {% if result.error %}
+        <div class="alert-error" style="margin-top:20px;">{{ result.error }}</div>
+      {% else %}
+        <div class="result-box" style="margin-top:24px;">
+          <div class="stats-grid" style="grid-template-columns:repeat(2,1fr);">
+            <div class="stat-card"><div class="stat-number">${{ result.tip_amount }}</div><div class="stat-label">Tip Amount</div></div>
+            <div class="stat-card"><div class="stat-number">${{ result.total_bill }}</div><div class="stat-label">Total Bill</div></div>
+            {% if result.people > 1 %}
+            <div class="stat-card"><div class="stat-number">${{ result.tip_per_person }}</div><div class="stat-label">Tip Per Person</div></div>
+            <div class="stat-card"><div class="stat-number" style="color:#2563EB;">${{ result.total_per_person }}</div><div class="stat-label">Total Per Person</div></div>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <div class="seo-section">
+    <p>The ANS Tools Tip Calculator helps you quickly determine the tip amount for any bill and split it evenly among any number of people. Use the quick-tip buttons for common tip percentages or enter a custom amount.</p>
+    <h2>How to Calculate a Tip</h2>
+    <ol class="how-to-steps">
+      <li>Enter the total bill amount</li>
+      <li>Click a quick-tip button or enter a custom tip percentage</li>
+      <li>Enter the number of people splitting the bill</li>
+      <li>Click "Calculate Tip" to see the breakdown</li>
+    </ol>
+  </div>
+</div>
+<div class="seo-section">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>Is the tip calculator free?</h3>
+      <p>Yes, completely free with no account required.</p>
+    </div>
+    <div class="faq-item">
+      <h3>How do I split the bill between people?</h3>
+      <p>Enter the number of people in the "Number of people" field. The calculator will automatically show each person's share of the bill including the tip.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What tip percentage should I leave at a restaurant?</h3>
+      <p>Standard tipping in the US is 15-20% at restaurants. 15% is acceptable, 18% is good service, and 20% or more recognizes excellent service.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Can I enter a custom tip percentage?</h3>
+      <p>Yes. You can type any custom percentage in the tip field instead of using the quick-select buttons.</p>
+    </div>
+  </div>
+
+  <div class="seo-section">
+    <h2>Related Tools</h2>
+    <div class="related-grid">
+      <a href="/tools/percentage-calculator" class="related-card">
+        <span>Percentage Calculator</span>
+        <small>Calculate any percentage instantly</small>
+      </a>
+      <a href="/tools/emi-calculator" class="related-card">
+        <span>EMI Calculator</span>
+        <small>Calculate monthly loan installments</small>
+      </a>
+      <a href="/tools/age-calculator" class="related-card">
+        <span>Age Calculator</span>
+        <small>Calculate your exact age</small>
+      </a>
+    </div>
+  </div>
+
+  <div class="suggestion-widget">
+    <h3>Suggest an Improvement</h3>
+    <p>Have an idea to make this tool better? We'd love to hear it.</p>
+    <div class="suggestion-form">
+      <select id="suggestionType" class="form-control"><option value="improvement">Improvement idea</option><option value="bug">Report a bug</option><option value="feature">Feature request</option></select>
+      <textarea id="suggestionText" class="form-control" rows="3" placeholder="Describe your suggestion…"></textarea>
+      <div class="suggestion-form-row">
+        <input type="email" id="suggestionEmail" class="form-control" placeholder="Email (optional)">
+        <button id="suggestionSubmit" class="btn btn-primary" onclick="submitSuggestion('tip-calculator')">Send Suggestion</button>
+      </div>
+      <div id="suggestionSuccess" class="suggestion-success"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Thanks! Your suggestion has been received.</div>
+    </div>
+  </div>
+
+</div>
+
+
+<script>
+function setTip(pct) {
+  document.querySelector('input[name="tip_percent"]').value = pct;
+}
+</script>
+{% endblock %}

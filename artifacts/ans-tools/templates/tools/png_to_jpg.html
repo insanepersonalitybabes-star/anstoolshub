@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% block title %}PNG to JPG Converter - Free Online | ANS Tools{% endblock %}
+{% block description %}Convert PNG to JPG online for free. Transparent PNG to white background JPG. Adjustable quality. No signup.{% endblock %}
+{% block keywords %}png to jpg, convert png to jpg, png to jpeg online, png jpg converter{% endblock %}
+{% block canonical %}https://anstools.xyz/tools/png-to-jpg{% endblock %}
+{% block schema %}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"PNG to JPG Converter","url":"https://anstools.xyz/tools/png-to-jpg","description":"Convert PNG to JPG online for free.","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+{% endblock %}
+{% block content %}
+<div class="tool-page">
+  <div class="breadcrumb">
+    <a href="/">Home</a><span>/</span><a href="/#tools">Tools</a><span>/</span>PNG to JPG
+  </div>
+  <div class="tool-header">
+    <div class="tool-header-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><polyline points="21 15 16 10 5 21"/><path d="M17 3l4 4-4 4"/></svg>
+    </div>
+    <div >
+      <h1>PNG to JPG Converter</h1>
+      <p>Convert PNG to JPG. Transparent backgrounds are converted to white.</p>
+    </div>
+  </div>
+
+  <div class="tool-card-main">
+    <form method="POST" enctype="multipart/form-data">
+      <div class="form-group">
+        <label>Upload PNG Image (max 16MB)</label>
+        <input type="file" name="image" accept="image/png" required style="padding:10px 16px;">
+      </div>
+      <div class="form-group">
+        <label>Output Quality: <span id="quality_val">90</span>%</label>
+        <input type="range" id="quality" name="quality" min="30" max="99" value="90">
+      </div>
+      <button type="submit" class="btn-primary">
+        <span class="btn-text">Convert to JPG</span>
+        <span class="spinner"></span>
+      </button>
+    </form>
+
+    {% if result %}
+      {% if result.error %}
+        <div class="alert-error" style="margin-top:20px;">{{ result.error }}</div>
+      {% else %}
+        <div class="result-box">
+          <h3>Converted JPG</h3>
+          <img class="img-preview" src="data:image/jpeg;base64,{{ result.b64 }}" alt="Converted JPG">
+          <div class="result-row">
+            <span class="result-label">Output Size</span>
+            <span class="result-value">{{ (result.new_size / 1024) | round(1) }} KB</span>
+          </div>
+          <div class="download-area">
+            <a href="data:image/jpeg;base64,{{ result.b64 }}" download="converted.jpg" class="btn-download">Download JPG</a>
+          </div>
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <div class="seo-section">
+    <p>Convert PNG images to JPG format quickly and for free. JPG files are smaller and more widely supported for photography. Transparent areas in PNG files are converted to a white background in the output JPG.</p>
+    <h2>How to Convert PNG to JPG</h2>
+    <ol class="how-to-steps">
+      <li>Upload your PNG image file</li>
+      <li>Adjust the quality slider to balance file size and image quality</li>
+      <li>Click "Convert to JPG"</li>
+      <li>Download the resulting JPG file</li>
+    </ol>
+  </div>
+
+  <div class="seo-section">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <h3>Is the PNG to JPG converter free?</h3>
+      <p>Yes, completely free with no signup or account required.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Why convert PNG to JPG?</h3>
+      <p>JPG files are smaller than PNG for photographs and complex images, making them better for web use and email attachments. JPG is also more universally supported.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What happens to transparent PNG backgrounds?</h3>
+      <p>Since JPG does not support transparency, transparent areas in PNG images are replaced with a white background during conversion.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Does converting PNG to JPG lose quality?</h3>
+      <p>There may be minor quality loss when converting to JPG because JPG uses lossy compression. Higher quality settings minimize this loss.</p>
+    </div>
+  </div>
+
+  <div class="seo-section">
+    <h2>Related Tools</h2>
+    <div class="related-grid">
+      <a href="/tools/jpg-to-png" class="related-card">
+        <span>JPG to PNG</span>
+        <small>Convert JPEG images to PNG format</small>
+      </a>
+      <a href="/tools/image-compressor" class="related-card">
+        <span>Image Compressor</span>
+        <small>Reduce image file size</small>
+      </a>
+      <a href="/tools/image-resizer" class="related-card">
+        <span>Image Resizer</span>
+        <small>Resize images to any dimension</small>
+      </a>
+    </div>
+  </div>
+
+  <div class="suggestion-widget">
+    <h3>Suggest an Improvement</h3>
+    <p>Have an idea to make this tool better? We'd love to hear it.</p>
+    <div class="suggestion-form">
+      <select id="suggestionType" class="form-control"><option value="improvement">Improvement idea</option><option value="bug">Report a bug</option><option value="feature">Feature request</option></select>
+      <textarea id="suggestionText" class="form-control" rows="3" placeholder="Describe your suggestion…"></textarea>
+      <div class="suggestion-form-row">
+        <input type="email" id="suggestionEmail" class="form-control" placeholder="Email (optional)">
+        <button id="suggestionSubmit" class="btn btn-primary" onclick="submitSuggestion('png-to-jpg')">Send Suggestion</button>
+      </div>
+      <div id="suggestionSuccess" class="suggestion-success"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Thanks! Your suggestion has been received.</div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
