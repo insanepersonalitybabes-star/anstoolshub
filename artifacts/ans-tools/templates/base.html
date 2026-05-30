@@ -50,6 +50,13 @@
 
   <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
   {% block head %}{% endblock %}
+<style>
+* { box-sizing: border-box; }
+body { overflow-x: hidden; }
+img, video, iframe { max-width: 100%; height: auto; }
+input, textarea, select { font-size: 16px !important; }
+table { width: 100%; overflow-x: auto; display: block; }
+</style>
 </head>
 <body>
 
