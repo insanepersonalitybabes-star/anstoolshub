@@ -1221,11 +1221,43 @@ footer {
   .container { padding: 0 16px; }
   .tools-grid { grid-template-columns: 1fr; }
   .popular-grid { grid-template-columns: 1fr; }
-  .cat-grid { grid-template-columns: repeat(3,1fr); }
+  .cat-grid { grid-template-columns: repeat(2,1fr); }
   .footer-inner { grid-template-columns: 1fr; }
   .admin-stats-grid { grid-template-columns: 1fr 1fr; }
   .tool-header { flex-direction: column; }
   .tool-card-main { padding: 20px; }
+  .hero-search input { padding: 14px 20px 14px 48px; font-size: 16px; }
+  .hero-stats { gap: 12px; }
+  .popular-grid { grid-template-columns: 1fr; min-width: 0; }
+}
+
+/* ── Overflow Fix ─────────────────────────────────────────────── */
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+.hero, .hero-inner, .hero-search {
+  max-width: 100%;
+  overflow: hidden;
+}
+.popular-card {
+  min-width: 0;
+  max-width: 100%;
+}
+.popular-card-desc {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+.footer-inner {
+  overflow: hidden;
+}
+@media (max-width: 360px) {
+  .cat-grid { grid-template-columns: repeat(2,1fr); }
+  .hero h1 { font-size: 1.8rem; }
+  .hero-badge { font-size: .7rem; padding: 4px 10px; }
+  .container { padding: 0 12px; }
 }
 
 /* ── Static Pages ────────────────────────────────────────────── */
