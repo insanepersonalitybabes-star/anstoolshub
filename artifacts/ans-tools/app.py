@@ -55,7 +55,7 @@ def init_db():
         ('ga_measurement_id', 'G-XXXXXXXXXX'),
         ('site_title', 'ANS Tools'),
         ('contact_email', 'hello@anstools.xyz'),
-        ('admin_password_hash', hashlib.sha256('anstools2026'.encode()).hexdigest()),
+        ('admin_password_hash', hashlib.sha256('ANStools@9977'.encode()).hexdigest()),
         ('robots_txt', 'User-agent: *\nAllow: /\nSitemap: https://anstools.xyz/sitemap.xml'),
     ]
     for key, value in defaults:
