@@ -269,13 +269,13 @@ def disclaimer():
         canonical="https://anstools.xyz/disclaimer")
 
 # ── Admin Panel ───────────────────────────────────────────────────────────────
-@app.route('/admin')
+@app.route('/xpanel-7749')
 def admin_index():
     if session.get('admin_logged_in'):
         return redirect(url_for('admin_dashboard'))
     return redirect(url_for('admin_login'))
 
-@app.route('/admin/login', methods=['GET','POST'])
+@app.route('/xpanel-7749/login', methods=['GET','POST'])
 def admin_login():
     error = None
     if request.method == 'POST':
@@ -287,12 +287,12 @@ def admin_login():
         error = 'Incorrect password.'
     return render_template('admin/login.html', error=error)
 
-@app.route('/admin/logout')
+@app.route('/xpanel-7749/logout')
 def admin_logout():
     session.pop('admin_logged_in', None)
     return redirect(url_for('admin_login'))
 
-@app.route('/admin/dashboard')
+@app.route('/xpanel-7749/dashboard')
 @admin_required
 def admin_dashboard():
     conn = get_db()
@@ -315,7 +315,7 @@ def admin_dashboard():
         top_tools=top_tools, recent_msgs=recent_msgs, recent_sugg=recent_sugg,
         unread_msgs=unread_msgs, daily=daily, tools=TOOLS)
 
-@app.route('/admin/settings', methods=['GET','POST'])
+@app.route('/xpanel-7749/settings', methods=['GET','POST'])
 @admin_required
 def admin_settings():
     success = None
@@ -355,7 +355,7 @@ def admin_settings():
     }
     return render_template('admin/settings.html', settings=settings, success=success)
 
-@app.route('/admin/seo', methods=['GET','POST'])
+@app.route('/xpanel-7749/seo', methods=['GET','POST'])
 @admin_required
 def admin_seo():
     success = None
@@ -367,7 +367,7 @@ def admin_seo():
     robots = get_setting('robots_txt')
     return render_template('admin/seo.html', robots=robots, success=success, tools=TOOLS)
 
-@app.route('/admin/messages', methods=['GET','POST'])
+@app.route('/xpanel-7749/messages', methods=['GET','POST'])
 @admin_required
 def admin_messages():
     if request.method == 'POST':
@@ -384,7 +384,7 @@ def admin_messages():
     conn.close()
     return render_template('admin/messages.html', messages=messages)
 
-@app.route('/admin/suggestions', methods=['GET','POST'])
+@app.route('/xpanel-7749/suggestions', methods=['GET','POST'])
 @admin_required
 def admin_suggestions():
     if request.method == 'POST':
