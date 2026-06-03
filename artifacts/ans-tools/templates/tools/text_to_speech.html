@@ -123,7 +123,22 @@
 
 
 <script>
-// Slider display for TTS-specific sliders
+// Load voices
+function loadVoices() {
+  const voiceSelect = document.getElementById('tts-voice');
+  const voices = window.speechSynthesis.getVoices();
+  voiceSelect.innerHTML = '';
+  voices.forEach((voice, i) => {
+    const option = document.createElement('option');
+    option.value = i;
+    option.textContent = `${voice.name} (${voice.lang})`;
+    voiceSelect.appendChild(option);
+  });
+}
+window.speechSynthesis.onvoiceschanged = loadVoices;
+loadVoices();
+
+// Sliders
 ['tts-rate', 'tts-pitch'].forEach(id => {
   const slider = document.getElementById(id);
   const display = document.getElementById(id + '_val');
@@ -131,5 +146,23 @@
     slider.addEventListener('input', () => display.textContent = slider.value);
   }
 });
+
+// Speak button
+document.getElementById('tts-speak').addEventListener('click', function() {
+  const text = document.getElementById('tts-text').value.trim();
+  if (!text) { alert('Please enter some text!'); return; }
+  window.speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(text);
+  const voices = window.speechSynthesis.getVoices();
+  const voiceIndex = document.getElementById('tts-voice').value;
+  if (voices[voiceIndex]) utterance.voice = voices[voiceIndex];
+  utterance.rate = parseFloat(document.getElementById('tts-rate').value);
+  utterance.pitch = parseFloat(document.getElementById('tts-pitch').value);
+  window.speechSynthesis.speak(utterance);
+});
+
+// Stop button
+document.getElementById('tts-stop').addEventListener('click', function() {
+  window.speechSynthesis.cancel();
+});
 </script>
-{% endblock %}
