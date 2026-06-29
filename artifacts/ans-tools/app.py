@@ -171,7 +171,9 @@ def sitemap():
         xml += f'  <url><loc>{u}</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>\n'
     xml += '</urlset>'
     return Response(xml, mimetype='application/xml')
-
+@app.route('/ads.txt')
+def ads_txt():
+    return send_file('static/ads.txt', mimetype='text/plain')
 @app.route('/robots.txt')
 def robots():
     content = get_setting('robots_txt', 'User-agent: *\nAllow: /\nSitemap: https://anstools.xyz/sitemap.xml')
